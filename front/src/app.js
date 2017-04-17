@@ -1,5 +1,5 @@
 
-var app = angular.module('vna', ['ngMaterial', 'ui.router']);
+var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -13,4 +13,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise('/');
 
+});
+
+app.factory('vnaSocket', function(socketFactory) {
+  var vnaSocket = socketFactory();
+  return vnaSocket;
 });

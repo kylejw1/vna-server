@@ -1,12 +1,31 @@
 var express = require('express');
+var io = require('socket.io');
+var http = require('http');
 var serveStatic = require('serve-static');
+
 var app = express();
+var server = http.createServer(app);
+var io = io.listen(server);
 
 app.use(serveStatic('../front', { maxAge: 0, setHeaders: setCustomCacheControl }));
+app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
 
-var server = app.listen(1337, () => {
+io.on('connection', socket => {
+  socket.on('message', data => {
+    console.log('received message: ', JSON.stringify(data));
+
+    socket.emit('message', {"hello": "clients"});
+ 
+  });
+});
+
+
+
+
+server.listen(1337, () => {
     console.log("App listening");
 });
+
 process.on('SIGINT', function() {
   console.log('Shutting down');
   server.close();
