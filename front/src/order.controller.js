@@ -37,4 +37,11 @@ app.controller('OrderController', ['vnaSocket', function(vnaSocket) {
     { name: "Meat Lovers" }
   ]
 
+  vm.order = function(type) {
+    vm.isFullScreen = !vm.isFullScreen;
+    // vm.broadCast = function() {
+    //   vnaSocket.emit("order", type);
+    // };
+  }
+
 }]);
