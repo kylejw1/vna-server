@@ -1,33 +1,35 @@
       <md-toolbar class="md-hue-2">
       <div class="md-toolbar-tools">
           <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
-          <md-icon>accessibility</md-icon>
+          <md-icon ng-disabled>menu</md-icon>
           </md-button>
 
           <h2 flex="" md-truncate="">Verona Order Queue</h2>
 
-          <md-button class="md-icon-button" aria-label="Favorite">
-          <md-icon style="color: greenyellow;">favorite</md-icon>
-          </md-button>
-
-          <md-button class="md-icon-button" aria-label="More">
-          <md-icon>more-vert</md-icon>
-          </md-button>
       </div>
       </md-toolbar>
 
       <div ng-cloak>
         <md-content class="md-padding">
+
           <md-nav-bar md-selected-nav-item="currentChannel" nav-bar-aria-label="channels">
             <md-nav-item ng-repeat="n in [1,2,3,4,5]"" md-nav-click="mainCtrl.setChannel(n)" name="channel{{n}}">
               Channel {{n}}
             </md-nav-item>
+
+            <md-button class="md-raised md-primary" >
+              FRONT
+              <md-icon class="md-icon-button" >playlist_add</md-icon>
+            </md-button>
+            <md-button class="md-raised md-primary" >
+              BACK
+              <md-icon class="md-icon-button" >playlist_add_check</md-icon>
+            </md-button>
+
           </md-nav-bar>
+
         </md-content>
       </div>
 
-      <md-content flex layout-padding>
-         <p>HTML5 is the next major revision of the HTML standard superseding HTML 4.01, XHTML 1.0, and XHTML 1.1. HTML5 is a standard for structuring and presenting content on the World Wide Web.</p>
-         <p>HTML5 is a cooperation between the World Wide Web Consortium (W3C) and the Web Hypertext Application Technology Working Group (WHATWG).</p>
-         <p>The new standard incorporates features like video playback and drag-and-drop that have been previously dependent on third-party browser plug-ins such as Adobe Flash, Microsoft Silverlight, and Google Gears.</p>
-      </md-content>
+      <div ui-view></div>
+
