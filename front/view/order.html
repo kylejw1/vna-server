@@ -1,8 +1,5 @@
 <md-grid-list md-cols="8" md-gutter="1em" md-row-height="4:3" ng-class="{fullscreen: orderCtrl.isFullScreen}">
-k: {{document.fullscreenEnabled}}
-{{document.msFullscreenEnabled}}
-{{document.mozFullscreenEnabled}}
-{{document.webkitFullscreenEnabled}}
+  
   <md-grid-tile ng-repeat="type in orderCtrl.types">
   <div layout layout-fill> 
     <md-button  class="md-raised md-primary" flex onclick="document.body.mozRequestFullScreen();">{{type.name}}</md-button>

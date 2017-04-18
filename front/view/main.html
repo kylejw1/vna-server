@@ -37,5 +37,19 @@
         </md-content>
       </div>
 
-      <div ui-view></div>
+      <div layout="row">
+        <div ui-view flex="80"></div>
+        <md-list flex="20">
+
+          <md-list-item class="md-3-line" ng-click="null">
+            <div class="md-list-item-text" layout="column">
+              <h3>Pepperoni</h3>
+              <h4>blah</h4>
+              <p>asdfa</p>
+              <md-progress-linear md-mode="determinate" value="20"></md-progress-linear>
+            </div>
+          </md-list-item>
+
+        </md-list>
+      </div>
 
