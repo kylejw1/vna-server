@@ -2,6 +2,14 @@ app.controller('MainController', ['vnaSocket', '$document', function(vnaSocket, 
 
   var vm = this;
 
+  vm.locations = [
+    { name: "Front" },
+    { name: "Back Oven" },
+    { name: "Back Pasta" },
+    { name: "Back Pizza" }
+  ];
+  vm.selectedLocation = _.find(vm.locations, { name: "Front" }).name;
+
   vm.fullscreenIcon = getFullscreenToggleIcon();
   vm.toggleFullscreen = function() {
     if (isFullscreen()) {
