@@ -1,4 +1,4 @@
-app.controller('MainController', ['vnaSocket', '$document', function(vnaSocket, $document) {
+app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', function(vnaSocket, $document, $mdSidenav) {
 
   var vm = this;
 
@@ -9,6 +9,10 @@ app.controller('MainController', ['vnaSocket', '$document', function(vnaSocket, 
     { name: "Back Pizza" }
   ];
   vm.selectedLocation = _.find(vm.locations, { name: "Front" }).name;
+
+  vm.sideNavToggle = function() {
+    $mdSidenav('left').toggle();
+  };
 
   vm.fullscreenIcon = getFullscreenToggleIcon();
   vm.toggleFullscreen = function() {

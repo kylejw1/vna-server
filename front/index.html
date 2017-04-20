@@ -22,9 +22,9 @@
       <link rel="stylesheet" href="style/vna.css">
 
    </head>
-   <body ng-app="vna" ng-cloak>
-     <div ui-view></div>
-
+   <body ng-app="vna" ng-cloak layout="column">
+     <div layout="column" ui-view flex />
+     
     <script>
 
         function toggleFullscreen(element) {
