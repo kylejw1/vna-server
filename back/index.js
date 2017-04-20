@@ -2,6 +2,7 @@ var express = require('express');
 var io = require('socket.io');
 var http = require('http');
 var serveStatic = require('serve-static');
+var dataController = require('./controllers/data.controller.js');
 
 var app = express();
 var server = http.createServer(app);
@@ -9,6 +10,10 @@ var io = io.listen(server);
 
 app.use(serveStatic('../front', { maxAge: 0, setHeaders: setCustomCacheControl }));
 app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
+app.post('/api/pizza', dataController.addPizza);
+app.post('/api/pasta', dataController.addPasta);
+app.get('/api/pizzas', dataController.getAllPizzas);
+app.get('/api/pastas', dataController.getAllPastas);
 
 io.on('connection', socket => {
   socket.on('message', data => {
