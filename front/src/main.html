@@ -1,4 +1,5 @@
 
+<!-- TOP TOOLBAR START -->
 
 <md-toolbar layout="row" class="md-hue-2">
   <div class="md-toolbar-tools">
@@ -16,33 +17,51 @@
   </div>
 </md-toolbar>
 
+<!-- TOP TOOLBAR END -->
 
 <md-content layout="row" flex>
 
+<!-- LEFT SIDENAV START -->
+
   <md-sidenav md-component-id="left" class="md-sidenav-left md-whiteframe-z2" layout="column">
-     <md-toolbar class="md-hue-2">
-        <h1 class="md-toolbar-tools">Location</h1>
-      </md-toolbar>
+
+    <md-toolbar class="md-hue-2">
+      <h1 class="md-toolbar-tools">Location</h1>
+    </md-toolbar>
+
     <md-list>
-      <md-list-item class="md-2-line" ng-click="null" ng-repeat="n in [1,2,3,4,5]">
-        <div class="md-list-item-text" layout="column">
-          <h3>Location {{n}}</h3>
+      <md-list-item class="md-2-line" ng-click="null" ng-repeat="location in mainCtrl.locations">
+        <div class="md-list-item-text" layout="column" ng-class="{selectedIndex: mainCtrl.selectedLocation===$index}">
+          <h3>{{location.name}}</h3>
           <h4>blah</h4>
         </div>
         <md-divider />
       </md-list-item>
     </md-list>
+
+    <md-toolbar class="md-hue-2">
+      <h1 class="md-toolbar-tools">Configuration</h1>
+    </md-toolbar>
+
+    <md-list>
+      <md-list-item class="md-1-line" ng-click="null" ng-repeat="configuration in mainCtrl.configurations">
+        <div >
+          <span>{{configuration.name}}</span>
+          
+        </div>
+        <md-divider />
+      </md-list-item>
+    </md-list>
+
   </md-sidenav>
 
+<!-- LEFT SIDENAV END -->
+
+<!-- NESTED VIEW START -->
   <div ui-view flex="80"></div>
+<!-- NESTED VIEW END -->
 
-  <!--<md-input-container>
-    <label>Location: </label>
-    <md-select ng-model="mainCtrl.selectedLocation">
-      <md-option ng-value="loc.name" ng-repeat="loc in mainCtrl.locations">{{loc.name}}</md-option>
-    </md-select>
-  </md-input-container>-->
-
+<!-- STATUS VIEW START -->
   <md-list flex>
 
     <md-list-item class="md-3-line" ng-click="null" ng-repeat="n in [1,2,3,4,5]" md-colors="{background: 'green-50'}">
@@ -56,6 +75,7 @@
     </md-list-item>
 
   </md-list>
+<!-- STATUS VIEW END -->
 
 </md-content>
 

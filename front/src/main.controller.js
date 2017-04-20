@@ -8,7 +8,12 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', functi
     { name: "Back Pasta" },
     { name: "Back Pizza" }
   ];
-  vm.selectedLocation = _.find(vm.locations, { name: "Front" }).name;
+  vm.selectedLocation = 1;//_.find(vm.locations, { name: "Front" }).name;
+
+  vm.configurations = [
+    { name: "Pizza Types" },
+    { name: "Pasta Types" }
+  ];
 
   vm.sideNavToggle = function() {
     $mdSidenav('left').toggle();
