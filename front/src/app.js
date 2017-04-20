@@ -8,7 +8,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     .state({
       name: 'main',
       url: '/',
-      templateUrl: 'view/main.html',
+      templateUrl: 'src/main.html',
       controller: 'MainController',
       controllerAs: 'mainCtrl',
       abstract: true
@@ -17,9 +17,17 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     .state({
       name: 'main.order',
       url: '^/order',
-      templateUrl: 'view/order.html',
+      templateUrl: 'src/order/order.html',
       controller: 'OrderController',
-      controllerAs: 'orderCtrl'
+      controllerAs: 'orderCtrl',
+      resolve: {
+        pizzas: function(DataService) { 
+          return DataService.getAllByName("pizzas");
+        },
+        pastas: function(DataService) {
+          return DataService.getAllByName("pastas");
+        }
+      }
     });
 
   $urlRouterProvider.otherwise('/order');
