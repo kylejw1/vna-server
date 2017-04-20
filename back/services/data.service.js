@@ -38,7 +38,16 @@ module.exports.initialize();
 
 function addEntry(name, type) { 
   try {
-    fs.closeSync(fs.openSync(`config/${type}/${name}`, 'w'));
+    fs.open(`config/${type}/${name}`, 'w', (err, fd) => {
+      if (err) throw err;
+
+      fs.close(fd, (err) => {
+        if (err) throw err;
+
+        console.log(`Created item ${name} in ${type}`);
+      });
+
+    });
   } catch(err) {
     console.log(`Failed to create item ${name} in ${type}`);
   }

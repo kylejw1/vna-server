@@ -12,6 +12,8 @@ module.exports = {
 
   addPizza: function(req, res) {
 
+    // TODO: Notify clients
+
     var name = req.query.name;
 
     if (!name) {
@@ -27,6 +29,8 @@ module.exports = {
   },
 
   addPasta: function(req, res) {
+
+    // TODO: Notify clients
 
     var name = req.query.name;
 
