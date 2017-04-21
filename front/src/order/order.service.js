@@ -23,7 +23,7 @@ app.service('OrderService', ["$http", "vnaSocket", function($http, vnaSocket) {
     createOrder: function(type, name) {
       var order = {
         name: name,
-        type: vm.type
+        type: type
       };
 
       vnaSocket.emit("createOrder", order);

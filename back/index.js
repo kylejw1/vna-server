@@ -33,9 +33,6 @@ io.on('connection', socket => {
 
 });
 
-
-
-
 server.listen(1337, () => {
     console.log("App listening");
 });
