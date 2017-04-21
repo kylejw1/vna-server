@@ -9,9 +9,9 @@ app.service('OrderService', ["$http", "vnaSocket", function($http, vnaSocket) {
 
   // Request all existing orders from the server
   $http.get("/api/orders").then(function(data) {
-      _.forEach(data.data, function(order) {
-        orders[order.id] = order;
-      });
+    _.forEach(data.data, function(order) {
+      orders[order.id] = order;
+    });
   });
 
   return {
