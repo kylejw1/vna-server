@@ -3,6 +3,8 @@ var io = require('socket.io');
 var http = require('http');
 var serveStatic = require('serve-static');
 var dataController = require('./controllers/data.controller.js');
+var orderService = require('./services/order.service.js');
+var orderController = require('./controllers/order.controller.js');
 
 var app = express();
 var server = http.createServer(app);
@@ -14,14 +16,21 @@ app.post('/api/pizza', dataController.addPizza);
 app.post('/api/pasta', dataController.addPasta);
 app.get('/api/pizzas', dataController.getAllPizzas);
 app.get('/api/pastas', dataController.getAllPastas);
+app.get('/api/orders', orderController.getOrders);
 
 io.on('connection', socket => {
+
   socket.on('message', data => {
     console.log('received message: ', JSON.stringify(data));
 
     socket.emit('message', {"hello": "clients"});
  
   });
+
+  socket.on('createOrder', data => {
+    orderService.createOrder(data, io);
+  });
+
 });
 
 

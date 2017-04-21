@@ -2,12 +2,17 @@ app.controller('OrderController', ['vnaSocket', 'pizzas', 'pastas', function(vna
 
   var vm = this;
 
-  vm.types = pizzas;
+  vm.type = "pizza";
+  vm.names = pizzas;
 
-  vm.order = function(type) {
-    vm.broadCast = function() {
-      vnaSocket.emit("order", type);
+  vm.createOrder = function(name) {
+
+    var order = {
+      name: name,
+      type: vm.type
     };
+
+    vnaSocket.emit("createOrder", order);
   }
 
 }]);

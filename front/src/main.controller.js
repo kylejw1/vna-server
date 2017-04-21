@@ -1,6 +1,11 @@
-app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', function(vnaSocket, $document, $mdSidenav) {
+app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'OrderService', 
+    function(vnaSocket, $document, $mdSidenav, OrderService) {
 
   var vm = this;
+
+  vm.orders = {};
+
+  ADD THE ORDERS HERE TO THE EXISTING LIST
 
   vm.locations = [
     { name: "Front" },

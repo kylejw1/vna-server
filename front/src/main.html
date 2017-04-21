@@ -30,11 +30,9 @@
     </md-toolbar>
 
     <md-list>
-      <md-list-item class="md-2-line" ng-click="null" ng-repeat="location in mainCtrl.locations">
-        <div class="md-list-item-text" layout="column" ng-class="{selectedIndex: mainCtrl.selectedLocation===$index}">
-          <h3>{{location.name}}</h3>
-          <h4>blah</h4>
-        </div>
+      <md-list-item class="md-1-line" ng-click="null" ng-repeat="location in mainCtrl.locations">
+        <span>{{location.name}}</span>
+        <md-divider />
         <md-divider />
       </md-list-item>
     </md-list>
@@ -45,10 +43,7 @@
 
     <md-list>
       <md-list-item class="md-1-line" ng-click="null" ng-repeat="configuration in mainCtrl.configurations">
-        <div >
-          <span>{{configuration.name}}</span>
-          
-        </div>
+        <span>{{configuration.name}}</span>
         <md-divider />
       </md-list-item>
     </md-list>
@@ -62,14 +57,14 @@
 <!-- NESTED VIEW END -->
 
 <!-- STATUS VIEW START -->
-  <md-list flex>
+  <md-list flex md-colors="{background: 'grey-50'}">
 
-    <md-list-item class="md-3-line" ng-click="null" ng-repeat="n in [1,2,3,4,5]" md-colors="{background: 'green-50'}">
+    <md-list-item class="md-3-line" ng-click="null" ng-repeat="n in mainCtrl.orders" md-colors="{background: 'green-50'}">
       <div class="md-list-item-text" layout="column">
-        <h3>Pepperoni</h3>
+        <h3>{{n.name}}</h3>
         <h4>blah</h4>
         <p>asdfa</p>
-        <md-progress-linear md-mode="determinate" value="{{n*10}}"></md-progress-linear>
+        <md-progress-linear md-mode="determinate" value="25"></md-progress-linear>
       </div>
       <md-divider />
     </md-list-item>
