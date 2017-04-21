@@ -1,5 +1,4 @@
 
-
 var orders = [];
 
 module.exports = {
@@ -8,17 +7,17 @@ module.exports = {
     return orders;
   },
 
-  createOrder: function(order, io) {
+  createOrder: function(orderData) {
 
     var order = {
       id: new Date().getTime(),
-      type: order.type,
-      name: order.name,
+      type: orderData.type,
+      name: orderData.name,
     }
 
     orders.push(order);
 
-    io.sockets.emit("addOrder", order);
+    return order;
   }
 
 };

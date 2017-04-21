@@ -3,7 +3,6 @@ var io = require('socket.io');
 var http = require('http');
 var serveStatic = require('serve-static');
 var dataController = require('./controllers/data.controller.js');
-var orderService = require('./services/order.service.js');
 var orderController = require('./controllers/order.controller.js');
 
 var app = express();
@@ -28,7 +27,7 @@ io.on('connection', socket => {
   });
 
   socket.on('createOrder', data => {
-    orderService.createOrder(data, io);
+    orderController.createOrder(data, io);
   });
 
 });
