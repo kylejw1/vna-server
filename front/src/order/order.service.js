@@ -1,23 +1,32 @@
-app.service('OrderService', ["$http", "vnaSocket", "orders", function($http, vnaSocket, orders) {  
+app.service('OrderService', ["$http", "vnaSocket", function($http, vnaSocket) {  
 
+  var orders = {};
+
+  // Subscribe to pushed orders
   vnaSocket.on("addOrder", function(order) {
     orders[order.id] = order;
+  });
+
+  // Request all existing orders from the server
+  $http.get("/api/orders").then(function(data) {
+      _.forEach(data.data, function(order) {
+        orders[order.id] = order;
+      });
   });
 
   return {
 
     getOrders: function() {
-      return $http.get("/api/orders")
-        .then(function(data) {
-          return data.data;
-        });
+      return orders;
     },
 
-    orderItem: function(type, name) {
-      return $http.put("/api/order/" + type + "/" + item)
-        .then(function(data) {
-          return data.data;
-        });
+    createOrder: function(type, name) {
+      var order = {
+        name: name,
+        type: vm.type
+      };
+
+      vnaSocket.emit("createOrder", order);
     }
 
   }

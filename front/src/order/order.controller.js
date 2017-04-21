@@ -1,4 +1,5 @@
-app.controller('OrderController', ['vnaSocket', 'pizzas', 'pastas', function(vnaSocket, pizzas, pastas) {
+app.controller('OrderController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService', 
+    function(vnaSocket, pizzas, pastas, OrderService) {
 
   var vm = this;
 
@@ -6,13 +7,7 @@ app.controller('OrderController', ['vnaSocket', 'pizzas', 'pastas', function(vna
   vm.names = pizzas;
 
   vm.createOrder = function(name) {
-
-    var order = {
-      name: name,
-      type: vm.type
-    };
-
-    vnaSocket.emit("createOrder", order);
+    OrderService.createOrder(vm.type, name);
   }
 
 }]);
