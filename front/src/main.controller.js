@@ -3,8 +3,6 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
 
   var vm = this;
 
-  vm.orders = OrderService.getOrders();
-
   vm.locations = [
     { name: "Front" },
     { name: "Back Oven" },

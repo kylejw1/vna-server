@@ -53,25 +53,11 @@
 <!-- LEFT SIDENAV END -->
 
 <!-- NESTED VIEW START -->
-  <div ui-view flex="80"></div>
+  <md-content ui-view="left" flex="80" ></md-content>
 <!-- NESTED VIEW END -->
 
 <!-- STATUS VIEW START -->
-  <md-content flex>
-    <md-list md-colors="{background: 'grey-50'}">
-
-      <md-list-item class="md-3-line" ng-click="null" ng-repeat="n in mainCtrl.orders" md-colors="{background: 'green-50'}">
-        <div class="md-list-item-text" layout="column">
-          <h3>{{n.name}}</h3>
-          <h4>blah</h4>
-          <p>asdfa</p>
-          <md-progress-linear md-mode="determinate" value="25"></md-progress-linear>
-        </div>
-        <md-divider />
-      </md-list-item>
-
-    </md-list>
-  </md-content>
+  <md-content ui-view="right" flex ></md-content>
 <!-- STATUS VIEW END -->
 
 </md-content>
