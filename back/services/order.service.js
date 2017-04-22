@@ -1,16 +1,22 @@
 var _ = require('lodash');
 
 var orders = [];
+var index = 0;
 
 setInterval(cleanup, 60000);
 function cleanup() {
 
+  if (orders.length === 0) {
+    return;
+  }
+
   console.log(`Running cleanup task on ${orders.length} items`);
 
   var staleDate = new Date();
-  staleDate.setSeconds(staleDate.getSeconds() - 60);
+  staleDate.setMinutes(staleDate.getMinutes() - 30);
 
-  _.remove(orders, order => order.completeTime < staleDate);
+  // Pop anything that is ready for more than 30 min
+  _.remove(orders, order => order.readyTime && order.readyTime < staleDate);
 
   console.log(`Cleanup complete. ${orders.length} items remain`);
 }
@@ -23,15 +29,16 @@ module.exports = {
 
   createOrder: function(orderData) {
 
-    var in2Minutes = new Date();
-    in2Minutes.setMinutes(in2Minutes.getMinutes() + 2);
+    var now = new Date().getTime();
 
     var order = {
-      id: new Date().getTime(),
+      id: `${now}${index}`,
       type: orderData.type,
       name: orderData.name,
-      completeTime: in2Minutes
-    }
+      requestTime: now,
+      ovenTime: null,
+      readyTime: null
+    };
 
     orders.push(order);
 

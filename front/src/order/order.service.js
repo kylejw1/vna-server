@@ -1,18 +1,40 @@
-app.service('OrderService', ["$http", "vnaSocket", function($http, vnaSocket) {  
+app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, vnaSocket, $timeout) {  
 
-  var orders = {};
+  var orders = [];
 
   // Subscribe to pushed orders
   vnaSocket.on("addOrder", function(order) {
-    orders[order.id] = order;
+    if (!_.find(orders, {id: order.id})) {
+      orders.push(order);
+    }
   });
 
   // Request all existing orders from the server
   $http.get("/api/orders").then(function(data) {
     _.forEach(data.data, function(order) {
-      orders[order.id] = order;
+      if (!_.find(orders, {id: order.id})) {
+        orders.push(order);
+      }
     });
   });
+
+  function updateTimes() {
+    var staleTime = new Date().getTime() - 60000;
+
+    _.remove(orders, function(order) { return order.requestTime < staleTime; });
+  }
+
+  function updateTimer() {
+    $timeout(function() {
+      try {
+        updateTimes();
+      } catch(err) {
+        console.error(err);
+      }
+      updateTimer();
+    }, 1000);
+  }
+  updateTimer();
 
   return {
 
