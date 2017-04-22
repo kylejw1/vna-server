@@ -17,9 +17,9 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       url: '^/order',
       views: {
         'left@main': {
-          templateUrl: 'src/order/order.html',
-          controller: 'OrderController',
-          controllerAs: 'orderCtrl'
+          templateUrl: 'src/menu/menu.html',
+          controller: 'MenuController',
+          controllerAs: 'menuCtrl'
         },
         'right@main': {
           templateUrl: 'src/status/status.html',

@@ -1,4 +1,4 @@
-app.controller('OrderController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService', 
+app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService', 
     function(vnaSocket, pizzas, pastas, OrderService) {
 
   var vm = this;
