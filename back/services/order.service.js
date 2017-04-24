@@ -40,6 +40,8 @@ module.exports = {
       readyTime: null
     };
 
+    index += 1;
+
     orders.push(order);
 
     return order;

@@ -9,7 +9,9 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, v
     }
   });
 
-  vnaSocket.on("orderUpdated")
+  vnaSocket.on("orderUpdated", function(order) {
+
+  });
 
   // Request all existing orders from the server
   $http.get("/api/orders").then(function(data) {
