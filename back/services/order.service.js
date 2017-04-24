@@ -1,12 +1,12 @@
 var _ = require('lodash');
 
-var orders = [];
+var orders = {};
 var index = 0;
 
 setInterval(cleanup, 60000);
 function cleanup() {
 
-  if (orders.length === 0) {
+  if (Object.getOwnPropertyNames(orders).length === 0) {
     return;
   }
 
@@ -16,7 +16,7 @@ function cleanup() {
   staleDate.setMinutes(staleDate.getMinutes() - 30);
 
   // Pop anything that is ready for more than 30 min
-  _.remove(orders, order => order.readyTime && order.readyTime < staleDate);
+  orders = _.reject(orders, order => order.readyTime && order.readyTime < staleDate);
 
   console.log(`Cleanup complete. ${orders.length} items remain`);
 }
@@ -42,18 +42,17 @@ module.exports = {
 
     index += 1;
 
-    orders.push(order);
+    orders[order.id] = order;
 
     return order;
   },
 
-  updateOrder: function(id, params) {
-    var order = _.find(orders, { id: id });
-    if (!order) {
+  updateOrder: function(orderData) {
+    if (!orderData.id || !orders[orderData.id]) {
       console.log("updateOrder :: failed to locate order with ID=" + id);
     }
 
-    return _.assign(order, params);
+    return _.assign(orders[orderData.id], orderData);
   }
 
 };

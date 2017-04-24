@@ -11,8 +11,12 @@ module.exports = {
     ioServer.sockets.emit("orderAdded", order);
   },
 
-  updateOrder: function(id, params, ioServer) {
-    var order = orderService.updateOrder(id, params);
+  updateOrder: function(orderData, ioServer) {
+    if (!orderData.id) {
+      console.error("updateOrder :: No order ID provided");
+      return;
+    }
+    var order = orderService.updateOrder(orderData);
     ioServer.sockets.emit("orderUpdated", order);
   }
 

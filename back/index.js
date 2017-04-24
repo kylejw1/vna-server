@@ -30,6 +30,10 @@ io.on('connection', socket => {
     orderController.createOrder(data, io);
   });
 
+  socket.on('updateOrder', data => {
+    orderController.updateOrder(data, io);
+  });
+
 });
 
 server.listen(1337, () => {

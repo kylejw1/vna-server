@@ -1,23 +1,28 @@
 app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, vnaSocket, $timeout) {  
 
-  var orders = [];
+  var orders = {};
 
   // Subscribe to pushed orders
   vnaSocket.on("orderAdded", function(order) {
-    if (!_.find(orders, {id: order.id})) {
-      orders.push(order);
+    if (!order.id) {
+      console.error("orderAdded :: No id provided");
     }
+    orders[order.id] = order;
   });
 
   vnaSocket.on("orderUpdated", function(order) {
+    if (!orders[order.id]) {
+      console.error("Received update for unknown order, id=" + order.id);
+    }
 
+    _.assign(orders[order.id], order);
   });
 
   // Request all existing orders from the server
   $http.get("/api/orders").then(function(data) {
     _.forEach(data.data, function(order) {
-      if (!_.find(orders, {id: order.id})) {
-        orders.push(order);
+      if (order.id) {
+        orders[order.id] = order;
       }
     });
   });
@@ -55,8 +60,8 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, v
       vnaSocket.emit("createOrder", order);
     },
 
-    updateOrder: function(id, params) {
-      vnaSocket.emit("updateOrder", params);
+    updateOrder: function(orderData) {
+      vnaSocket.emit("updateOrder", orderData);
     }
 
   }
