@@ -6,13 +6,14 @@ app.controller('StatusController', [ 'OrderService', '$mdDialog',
   // Get the orders reference.  This collection is updated in real time by the socket
   vm.orders = OrderService.getOrders();
 
-  vm.orderClicked = function(ev, order) {
+  vm.orderClicked2 = function(ev, order) {
     order.status = "complete";
     OrderService.updateOrder(order);
   };
 
-  vm.orderClicked2 = function(ev, order) {
+  vm.orderClicked = function(ev, order) {
     $mdDialog.show({
+      locals: { order: order },
       controller: 'EditStatusController',
       controllerAs: 'editStatusCtrl',
       templateUrl: 'src/status/edit.status.tmpl.html',

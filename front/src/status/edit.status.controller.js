@@ -1,7 +1,9 @@
-app.controller('EditStatusController', [ '$mdDialog',
-    function($mdDialog) {
+app.controller('EditStatusController', [ '$mdDialog', 'order',
+    function($mdDialog, order) {
 
   var vm = this;
+
+  vm.order = order;
 
   vm.hide = function() {
     $mdDialog.hide();
