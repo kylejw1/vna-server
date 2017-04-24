@@ -15,11 +15,11 @@
       <div class="md-dialog-content" layout="row" layout-align="center center">
 
         <div layout="column" layout-align="center center">
-          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.cancel()">
+          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.incrementMinutes()">
             <md-icon aria-label="Close dialog">expand_less</md-icon>
           </md-button>
-          <h1 layout-align="center">7</h1>
-          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.cancel()">
+          <h1 layout-align="center">{{editStatusCtrl.minutes}}</h1>
+          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.decrementMinutes()">
             <md-icon aria-label="Close dialog">expand_more</md-icon>
           </md-button>
         </div>
@@ -29,13 +29,13 @@
         </div>
 
         <div layout="column" layout-align="center center">
-          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.cancel()">
+          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.incrementSeconds()">
             <md-icon aria-label="Close dialog">expand_less</md-icon>
           </md-button>
-          <h1 align="center">30</h1>
-          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.cancel()">
+          <h1 align="center">{{editStatusCtrl.seconds}}</h1>
+          <md-button class="md-raised md-primary" ng-click="editStatusCtrl.decrementSeconds()">
             <md-icon aria-label="Close dialog">expand_more</md-icon>
-          </md-button>
+          </md-button>http://stackoverflow.com/questions/25180332/how-can-i-listen-for-a-click-and-hold-in-angularjs
         </div>
 
       </div>
