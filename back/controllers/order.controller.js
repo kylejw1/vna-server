@@ -8,7 +8,12 @@ module.exports = {
 
   createOrder: function(orderData, ioServer) {
     var order = orderService.createOrder(orderData);
-    ioServer.sockets.emit("addOrder", order);
+    ioServer.sockets.emit("orderAdded", order);
+  },
+
+  updateOrder: function(id, params, ioServer) {
+    var order = orderService.updateOrder(id, params);
+    ioServer.sockets.emit("orderUpdated", order);
   }
 
 };

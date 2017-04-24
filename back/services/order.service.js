@@ -43,6 +43,15 @@ module.exports = {
     orders.push(order);
 
     return order;
+  },
+
+  updateOrder: function(id, params) {
+    var order = _.find(orders, { id: id });
+    if (!order) {
+      console.log("updateOrder :: failed to locate order with ID=" + id);
+    }
+
+    return _.assign(order, params);
   }
 
 };

@@ -3,11 +3,13 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, v
   var orders = [];
 
   // Subscribe to pushed orders
-  vnaSocket.on("addOrder", function(order) {
+  vnaSocket.on("orderAdded", function(order) {
     if (!_.find(orders, {id: order.id})) {
       orders.push(order);
     }
   });
+
+  vnaSocket.on("orderUpdated")
 
   // Request all existing orders from the server
   $http.get("/api/orders").then(function(data) {
@@ -49,6 +51,10 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, v
       };
 
       vnaSocket.emit("createOrder", order);
+    },
+
+    updateOrder: function(id, params) {
+      vnaSocket.emit("updateOrder", params);
     }
 
   }
