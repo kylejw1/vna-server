@@ -16,6 +16,7 @@ app.post('/api/pasta', dataController.addPasta);
 app.get('/api/pizzas', dataController.getAllPizzas);
 app.get('/api/pastas', dataController.getAllPastas);
 app.get('/api/orders', orderController.getOrders);
+app.get('/api/time', orderController.getTime);
 
 io.on('connection', socket => {
 
@@ -36,6 +37,10 @@ io.on('connection', socket => {
 
   socket.on('deleteOrder', id => {
     orderController.deleteOrder(id, io);
+  });
+
+  socket.on('startOrderTimer', data => {
+    orderController.startOrderTimer(data, io);
   });
 
 });

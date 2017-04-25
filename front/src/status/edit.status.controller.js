@@ -14,7 +14,8 @@ app.controller('EditStatusController', [ '$mdDialog', 'order', 'OrderService',
 
   vm.startClicked = function() {
     var seconds = (parseInt(vm.minutes) * 60) + parseInt(vm.seconds); 
-    OrderService.startTimer(order);
+    OrderService.startOrderTimer(order.id, seconds);
+    vm.hide();
   };
 
   vm.cancelClicked = function() {

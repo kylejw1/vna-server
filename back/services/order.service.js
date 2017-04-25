@@ -35,8 +35,9 @@ module.exports = {
       id: `${now}${index}`,
       type: orderData.type,
       name: orderData.name,
+      status: "WAITING",
       requestTime: now,
-      ovenTime: null,
+      startTime: null,
       readyTime: null
     };
 
@@ -57,6 +58,14 @@ module.exports = {
 
   deleteOrder: function(id) {
     delete orders[id];
+  },
+
+  startOrderTimer: function(id, seconds) {
+    var order = orders[id];
+    if (order) {
+      order.secondsLeft = seconds;
+    }
+    return order;
   }
 
 };
