@@ -18,7 +18,7 @@
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.incrementMinutes()">
             <md-icon aria-label="Close dialog">expand_less</md-icon>
           </md-button>
-          <h1 layout-align="center">{{editStatusCtrl.minutes}}</h1>
+          <h1 layout-align="center">{{editStatusCtrl.minutes.pad(2)}}</h1>
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.decrementMinutes()">
             <md-icon aria-label="Close dialog">expand_more</md-icon>
           </md-button>
@@ -32,7 +32,7 @@
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.incrementSeconds()">
             <md-icon aria-label="Close dialog">expand_less</md-icon>
           </md-button>
-          <h1 align="center">{{editStatusCtrl.seconds}}</h1>
+          <h1 align="center">{{editStatusCtrl.seconds.pad(2)}}</h1>
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.decrementSeconds()">
             <md-icon aria-label="Close dialog">expand_more</md-icon>
           </md-button>
@@ -46,10 +46,10 @@
         Delete
       </md-button>
       <span flex></span>
-      <md-button ng-click="editStatusCtrl.answer('not useful')" class="md-raised">
+      <md-button class="md-raised" ng-click="editStatusCtrl.cancelClicked()">
        Close
       </md-button>
-      <md-button md-autofocus class="md-raised">
+      <md-button class="md-raised" ng-click="editStatusCtrl.startClicked()" md-autofocus>
         Start Timer
       </md-button>
     </md-dialog-actions>

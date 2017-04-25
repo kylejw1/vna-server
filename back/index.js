@@ -34,8 +34,8 @@ io.on('connection', socket => {
     orderController.updateOrder(data, io);
   });
 
-  socket.on('deleteOrder', data => {
-    orderController.deleteOrder(data, io);
+  socket.on('deleteOrder', id => {
+    orderController.deleteOrder(id, io);
   });
 
 });

@@ -20,11 +20,9 @@ module.exports = {
     ioServer.sockets.emit("orderUpdated", order);
   },
 
-  deleteOrder: function(orderData, ioServer) {
-    var order = orderService.deleteOrder(orderData);
-    if (order) {
-      ioServer.sockets.emit("orderRemoved", order);
-    }
+  deleteOrder: function(id, ioServer) {
+    orderService.deleteOrder(id);
+    ioServer.sockets.emit("orderRemoved", id);
   }
 
 };

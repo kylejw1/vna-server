@@ -12,17 +12,18 @@ app.controller('EditStatusController', [ '$mdDialog', 'order', 'OrderService',
     $mdDialog.hide();
   };
 
-  vm.cancel = function() {
+  vm.startClicked = function() {
+    var seconds = (parseInt(vm.minutes) * 60) + parseInt(vm.seconds); 
+    OrderService.startTimer(order);
+  };
+
+  vm.cancelClicked = function() {
     $mdDialog.cancel();
   };
 
-  vm.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-
   vm.deleteClicked = function() {
-    OrderService.deleteOrder(order);
-    $mdDialog.hide();
+    OrderService.deleteOrder(order.id);
+    vm.hide();
   };
 
   vm.incrementMinutes = function() {
@@ -51,6 +52,12 @@ app.controller('EditStatusController', [ '$mdDialog', 'order', 'OrderService',
 
   function constrain(value, min, max) {
     return Math.max(Math.min(value, max), min);
+  }
+
+  Number.prototype.pad = function(size) {
+    var s = String(this);
+    while (s.length < (size || 2)) {s = "0" + s;}
+    return s;
   }
 
 }]);
