@@ -53,6 +53,14 @@ module.exports = {
     }
 
     return _.assign(orders[orderData.id], orderData);
+  },
+
+  deleteOrder: function(orderData) {
+    var order = orders[orderData.id];
+    if (orderData.id) {
+      delete orders[orderData.id];
+    }
+    return order;
   }
 
 };

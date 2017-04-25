@@ -18,6 +18,10 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, v
     _.assign(orders[order.id], order);
   });
 
+  vnaSocket.on("orderRemoved", function(order) {
+    delete orders[order.id];
+  });
+
   // Request all existing orders from the server
   $http.get("/api/orders").then(function(data) {
     _.forEach(data.data, function(order) {
@@ -62,6 +66,10 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", function($http, v
 
     updateOrder: function(orderData) {
       vnaSocket.emit("updateOrder", orderData);
+    },
+
+    deleteOrder: function(order) {
+      vnaSocket.emit("deleteOrder", order);
     }
 
   }

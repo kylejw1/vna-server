@@ -18,6 +18,13 @@ module.exports = {
     }
     var order = orderService.updateOrder(orderData);
     ioServer.sockets.emit("orderUpdated", order);
+  },
+
+  deleteOrder: function(orderData, ioServer) {
+    var order = orderService.deleteOrder(orderData);
+    if (order) {
+      ioServer.sockets.emit("orderRemoved", order);
+    }
   }
 
 };

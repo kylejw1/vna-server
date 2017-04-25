@@ -35,14 +35,14 @@
           <h1 align="center">{{editStatusCtrl.seconds}}</h1>
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.decrementSeconds()">
             <md-icon aria-label="Close dialog">expand_more</md-icon>
-          </md-button>http://stackoverflow.com/questions/25180332/how-can-i-listen-for-a-click-and-hold-in-angularjs
+          </md-button>
         </div>
 
       </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-      <md-button class="md-warn md-raised">
+      <md-button class="md-warn md-raised" ng-click="editStatusCtrl.deleteClicked()">
         Delete
       </md-button>
       <span flex></span>
