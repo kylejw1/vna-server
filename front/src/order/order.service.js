@@ -30,6 +30,26 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
     delete orders[id];
   });
 
+  // Get initial list from server
+  $http.get("/api/orders").then(function(data) {
+
+    var serverOrders = data.data;
+
+    _.forEach(serverOrders, function(order) {
+      try {
+        if (order.id) {
+          if (orders[order.id]) {
+            _.assign(orders[order.id], order);
+          } else {
+            addOrder(order);
+          }
+        }
+      } catch(err) {
+        console.error("Error updating order :: " + JSON.stringify(err));
+      }
+    });
+  });
+
   function addOrder(order) {
 
     var o = {
@@ -82,37 +102,37 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
     });
     
     // Request all existing orders from the server
-    $http.get("/api/orders").then(function(data) {
+    // $http.get("/api/orders").then(function(data) {
 
-      var serverOrders = data.data;
+    //   var serverOrders = data.data;
 
-      // var missingOrders = _.reject(orders, function(order) {
-      //   return serverOrders[order.id];
-      // });
+    //   // var missingOrders = _.reject(orders, function(order) {
+    //   //   return serverOrders[order.id];
+    //   // });
 
-      // _.forEach(missingOrders, function(order) {
-      //   try {
-      //     console.log("Removing order as it is missing from server :: " + order.id + " :: " + order.name);
-      //     delete orders[order.id];
-      //   } catch(err) {
-      //     console.error("Error removing order :: " + JSON.stringify(err));
-      //   }
-      // })
+    //   // _.forEach(missingOrders, function(order) {
+    //   //   try {
+    //   //     console.log("Removing order as it is missing from server :: " + order.id + " :: " + order.name);
+    //   //     delete orders[order.id];
+    //   //   } catch(err) {
+    //   //     console.error("Error removing order :: " + JSON.stringify(err));
+    //   //   }
+    //   // })
 
-      _.forEach(serverOrders, function(order) {
-        try {
-          if (order.id) {
-            if (orders[order.id]) {
-              _.assign(orders[order.id], order);
-            } else {
-              addOrder(order);
-            }
-          }
-        } catch(err) {
-          console.error("Error updating order :: " + JSON.stringify(err));
-        }
-      });
-    });
+    //   _.forEach(serverOrders, function(order) {
+    //     try {
+    //       if (order.id) {
+    //         if (orders[order.id]) {
+    //           _.assign(orders[order.id], order);
+    //         } else {
+    //           addOrder(order);
+    //         }
+    //       }
+    //     } catch(err) {
+    //       console.error("Error updating order :: " + JSON.stringify(err));
+    //     }
+    //   });
+    // });
 
   }
 
