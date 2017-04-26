@@ -18,7 +18,7 @@ app.filter('orderStatus', function() {
 
     var array = _.values(items);
 
-    array = _.sortBy(array, function(elm) {
+    array = _.sortBy(array, "secondsLeft", function(elm) {
       var rank = {
         Complete: 1,
         Cooking: 2,
@@ -27,8 +27,6 @@ app.filter('orderStatus', function() {
       };
       var status = elm.status || "Unknown";
       return rank[status];
-    }, function(elm) {
-      return elm.secondsLeft;
     });
 
     return array;
