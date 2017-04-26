@@ -4,13 +4,13 @@
     class="md-3-line" 
     ng-repeat="order in statusCtrl.orders" 
     ng-click="statusCtrl.orderClicked($event, order)" 
-    md-colors="{background: order.color || 'blue-50'}">
+    md-colors="{background: order.status === 'Waiting' ? 'blue-50' : 'green-200' }">
 
     <div class="md-list-item-text" layout="column">
       <h3>{{order.name}}</h3>
-      <p ng-hide="statusCtrl.timeLeft[order.id] >= 0">--</p>
-      <p ng-hide="!statusCtrl.timeLeft[order.id]">{{ statusCtrl.timeLeft[order.id] | secondsToDateTime }}</p>
-      <md-progress-linear ng-hide="!statusCtrl.timeLeft[order.id]" md-mode="determinate" value="{{ statusCtrl.timeLeft[order.id] / order.duration }}"></md-progress-linear>
+      <h4 ng-hide="order.secondsLeft">{{ order.status }}</h4>
+      <p ng-hide="!order.secondsLeft">{{ order.secondsLeft | secondsToDateTime }}</p>
+      <md-progress-linear md-mode="determinate" value="{{ order.percentComplete }}"></md-progress-linear>
     </div>
     <md-divider />
 

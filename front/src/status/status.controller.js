@@ -5,8 +5,7 @@ app.controller('StatusController', [ 'OrderService', '$mdDialog',
 
   // Get the orders reference.  This collection is updated in real time by the socket
   vm.orders = OrderService.getOrders();
-  vm.timeLeft = OrderService.getTimeLeft();
-
+  
   vm.orderClicked = function(ev, order) {
     $mdDialog.show({
       locals: { order: order },

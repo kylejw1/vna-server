@@ -34,10 +34,6 @@ module.exports = {
       id: `${now}${index}`,
       type: orderData.type,
       name: orderData.name,
-      status: "WAITING",
-      requestTime: now,
-      cookStart: null,
-      cookEnd: null
     };
 
     index += 1;
@@ -51,6 +47,8 @@ module.exports = {
 
   deleteOrder: function(id) {
     delete orders[id];
+
+    console.log(`Deleted order ID ${id}`);
   },
 
   startOrderTimer: function(id, seconds) {
@@ -59,7 +57,10 @@ module.exports = {
       order.cookStart = new Date().getTime();
       order.cookEnd = order.cookStart + (seconds*1000);
       order.cookDuration = seconds;
+
+      console.log(`Started cook timer ${order.id}:${order.name} for ${order.cookDuration} seconds`);
     }
+
     return order;
   }
 

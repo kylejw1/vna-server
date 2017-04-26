@@ -1,27 +1,26 @@
 app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", function($http, vnaSocket, $timeout, $interval) {  
 
   var orders = {};
-  var timeLeft = {};
 
   var timeOffset = 0;
 
-  var syncInterval = $interval(sync, 120000);
+  var syncInterval = $interval(sync, 15000);
   sync();
 
-  var timeLeftInterval = $interval(updateTimeLeft, 1000);
+  var progressInterval = $interval(updateProgress, 1000);
 
   // Subscribe to pushed orders
   vnaSocket.on("orderAdded", function(order) {
     if (!order.id) {
       console.error("orderAdded :: No id provided");
     }
-    orders[order.id] = order;
+    addOrder(order);
   });
 
   vnaSocket.on("orderTimerStarted", function(order) {
     if (!orders[order.id]) {
       console.warn("Received start notification for unknown order :: id=" + order.id);
-      orders[order.id] = order;
+      addOrder(order);
     } else {
       _.assign(orders[order.id], order);
     }
@@ -31,6 +30,24 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
     delete orders[id];
   });
 
+  function addOrder(order) {
+
+    var o = {
+      id: null,
+      name: null,
+      type: null,
+      secondsLeft: null,
+      percentComplete: 0,
+      status: "Waiting",
+      cookStart: null,
+      cookEnd: null
+    };
+
+    order = _.assign(o, order);
+
+    orders[order.id] = order;
+  }
+
   function getSecondsLeft(startTimeMsec, endTimeMsec) {
     // Get start time corrected for this device
     var localEndTime = timeOffset + endTimeMsec;
@@ -39,12 +56,17 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
     return Math.max(0, Math.floor((localEndTime - now) / 1000));
   }
 
-  function updateTimeLeft() {
+  function updateOrderProgress(order) {
+    if (order.cookStart && order.cookEnd) {
+      order.secondsLeft = getSecondsLeft(order.cookStart, order.cookEnd);
+      order.percentComplete = 100 * (order.cookDuration - order.secondsLeft) / order.cookDuration;
+      order.status = order.secondsLeft === 0 ? "Complete" : "Cooking"; 
+    } 
+  }
+
+  function updateProgress() {
     _.forEach(orders, function(order) {
-      if (order.cookStart && order.cookEnd) {
-        timeLeft[order.id] = getSecondsLeft(order.cookStart, order.cookEnd);
-        console.log("Time left " + order.name + " " + timeLeft[order.id]);
-      }
+      updateOrderProgress(order);
     });
   }
 
@@ -64,18 +86,18 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
 
       var serverOrders = data.data;
 
-      var missingOrders = _.reject(orders, function(order) {
-        return serverOrders[order.id];
-      });
+      // var missingOrders = _.reject(orders, function(order) {
+      //   return serverOrders[order.id];
+      // });
 
-      _.forEach(missingOrders, function(order) {
-        try {
-          console.log("Removing order as it is missing from server :: " + order.id + " :: " + order.name);
-          delete orders[order.id];
-        } catch(err) {
-          console.error("Error removing order :: " + JSON.stringify(err));
-        }
-      })
+      // _.forEach(missingOrders, function(order) {
+      //   try {
+      //     console.log("Removing order as it is missing from server :: " + order.id + " :: " + order.name);
+      //     delete orders[order.id];
+      //   } catch(err) {
+      //     console.error("Error removing order :: " + JSON.stringify(err));
+      //   }
+      // })
 
       _.forEach(serverOrders, function(order) {
         try {
@@ -83,7 +105,7 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
             if (orders[order.id]) {
               _.assign(orders[order.id], order);
             } else {
-              orders[order.id] = order;
+              addOrder(order);
             }
           }
         } catch(err) {
@@ -98,10 +120,6 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
 
     getOrders: function() {
       return orders;
-    },
-
-    getTimeLeft: function() {
-      return timeLeft;
     },
 
     createOrder: function(type, name) {
