@@ -15,15 +15,6 @@ module.exports = {
     ioServer.sockets.emit("orderAdded", order);
   },
 
-  updateOrder: function(orderData, ioServer) {
-    if (!orderData.id) {
-      console.error("updateOrder :: No order ID provided");
-      return;
-    }
-    var order = orderService.updateOrder(orderData);
-    ioServer.sockets.emit("orderUpdated", order);
-  },
-
   deleteOrder: function(id, ioServer) {
     orderService.deleteOrder(id);
     ioServer.sockets.emit("orderRemoved", id);

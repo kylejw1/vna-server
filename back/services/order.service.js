@@ -12,11 +12,10 @@ function cleanup() {
 
   console.log(`Running cleanup task on ${orders.length} items`);
 
-  var staleDate = new Date();
-  staleDate.setMinutes(staleDate.getMinutes() - 30);
+  var staleDate = new Date().getTime() - (30*60*1000);
 
   // Pop anything that is ready for more than 30 min
-  orders = _.reject(orders, order => order.readyTime && order.readyTime < staleDate);
+  orders = _.reject(orders, order => order.cookEnd && order.cookEnd < staleDate);
 
   console.log(`Cleanup complete. ${orders.length} items remain`);
 }
@@ -37,23 +36,17 @@ module.exports = {
       name: orderData.name,
       status: "WAITING",
       requestTime: now,
-      startTime: null,
-      readyTime: null
+      cookStart: null,
+      cookEnd: null
     };
 
     index += 1;
 
     orders[order.id] = order;
 
+    console.log(`Created order ${order.type}: ${order.name}`);
+
     return order;
-  },
-
-  updateOrder: function(orderData) {
-    if (!orderData.id || !orders[orderData.id]) {
-      console.log("updateOrder :: failed to locate order with ID=" + id);
-    }
-
-    return _.assign(orders[orderData.id], orderData);
   },
 
   deleteOrder: function(id) {
@@ -63,7 +56,9 @@ module.exports = {
   startOrderTimer: function(id, seconds) {
     var order = orders[id];
     if (order) {
-      order.secondsLeft = seconds;
+      order.cookStart = new Date().getTime();
+      order.cookEnd = order.cookStart + (seconds*1000);
+      order.cookDuration = seconds;
     }
     return order;
   }

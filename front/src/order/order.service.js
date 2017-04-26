@@ -1,12 +1,14 @@
 app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", function($http, vnaSocket, $timeout, $interval) {  
 
   var orders = {};
+  var timeLeft = {};
 
   var timeOffset = 0;
 
   var syncInterval = $interval(sync, 120000);
   sync();
-  // var interval = $interval(updateOrders)
+
+  var timeLeftInterval = $interval(updateTimeLeft, 1000);
 
   // Subscribe to pushed orders
   vnaSocket.on("orderAdded", function(order) {
@@ -16,23 +18,35 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
     orders[order.id] = order;
   });
 
-  vnaSocket.on("orderUpdated", function(order) {
+  vnaSocket.on("orderTimerStarted", function(order) {
     if (!orders[order.id]) {
-      console.error("Received update for unknown order, id=" + order.id);
+      console.warn("Received start notification for unknown order :: id=" + order.id);
+      orders[order.id] = order;
+    } else {
+      _.assign(orders[order.id], order);
     }
-
-    _.assign(orders[order.id], order);
   });
 
   vnaSocket.on("orderRemoved", function(id) {
     delete orders[id];
   });
 
-  vnaSocket.on("orderTimerStarted", function(order) {
-    var o = orders[order.id];
-    o.secondsLeft = order.secondsLeft;
-    o.color = 'green-100';
-  });
+  function getSecondsLeft(startTimeMsec, endTimeMsec) {
+    // Get start time corrected for this device
+    var localEndTime = timeOffset + endTimeMsec;
+    var now = new Date().getTime();
+
+    return Math.max(0, Math.floor((localEndTime - now) / 1000));
+  }
+
+  function updateTimeLeft() {
+    _.forEach(orders, function(order) {
+      if (order.cookStart && order.cookEnd) {
+        timeLeft[order.id] = getSecondsLeft(order.cookStart, order.cookEnd);
+        console.log("Time left " + order.name + " " + timeLeft[order.id]);
+      }
+    });
+  }
 
   function sync() {
 
@@ -80,28 +94,14 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
 
   }
 
-  function updateTimes() {
-    var staleTime = new Date().getTime() - 60000;
-
-    _.remove(orders, function(order) { return order.requestTime < staleTime; });
-  }
-
-  function updateTimer() {
-    $timeout(function() {
-      try {
-        updateTimes();
-      } catch(err) {
-        console.error(err);
-      }
-      updateTimer();
-    }, 1000);
-  }
-  updateTimer();
-
   return {
 
     getOrders: function() {
       return orders;
+    },
+
+    getTimeLeft: function() {
+      return timeLeft;
     },
 
     createOrder: function(type, name) {
@@ -111,10 +111,6 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
       };
 
       vnaSocket.emit("createOrder", order);
-    },
-
-    updateOrder: function(orderData) {
-      vnaSocket.emit("updateOrder", orderData);
     },
 
     deleteOrder: function(id) {

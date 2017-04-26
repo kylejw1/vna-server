@@ -31,10 +31,6 @@ io.on('connection', socket => {
     orderController.createOrder(data, io);
   });
 
-  socket.on('updateOrder', data => {
-    orderController.updateOrder(data, io);
-  });
-
   socket.on('deleteOrder', id => {
     orderController.deleteOrder(id, io);
   });
