@@ -11,19 +11,35 @@ module.exports = {
   },
 
   createOrder: function(orderData, ioServer) {
-    var order = orderService.createOrder(orderData);
-    ioServer.sockets.emit("orderAdded", order);
+    try {
+      var order = orderService.createOrder(orderData);
+      ioServer.sockets.emit("orderAdded", order);
+    } catch(error) {
+      var errString = "createOrder :: " + JSON.stringify(error);
+      console.error(errString);
+      ioServer.sockets.emit("error", errString);
+    }
   },
 
   deleteOrder: function(id, ioServer) {
-    orderService.deleteOrder(id);
-    ioServer.sockets.emit("orderRemoved", id);
+    try {
+      orderService.deleteOrder(id);
+      ioServer.sockets.emit("orderRemoved", id);
+    } catch(error) {
+      var errString = "deleteOrder :: " + JSON.stringify(error);
+      console.error(errString);
+      ioServer.sockets.emit("error", errString);
+    }
   },
 
   startOrderTimer: function(data, ioServer) {
-    var order = orderService.startOrderTimer(data.id, data.seconds);
-    if (order) {
+    try {
+      var order = orderService.startOrderTimer(data.id, data.seconds);
       ioServer.sockets.emit("orderTimerStarted", order);
+    } catch(error) {
+      var errString = "startOrderTimer :: " + JSON.stringify(error);
+      console.error(errString);
+      ioServer.sockets.emit("error", errString);
     }
   }
 

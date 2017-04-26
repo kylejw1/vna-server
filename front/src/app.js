@@ -50,5 +50,10 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
 app.factory('vnaSocket', function(socketFactory) {
   var vnaSocket = socketFactory();
+
+  vnaSocket.on("error", function(data) {
+    console.error("Upstream error :: " + data);
+  });
+
   return vnaSocket;
 });
