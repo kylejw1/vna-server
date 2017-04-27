@@ -35,6 +35,7 @@ module.exports = {
       id: `${now}${index}`,
       type: orderData.type,
       name: orderData.name,
+      added: now,
       secondsLeft: DataService.getDefaultCookTimeSeconds(orderData.type)
     };
 

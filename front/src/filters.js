@@ -14,21 +14,30 @@ app.filter('secondsToDateTime', [function() {
 }]);
 
 app.filter('orderStatus', function() {
+
   return function(items) {
 
-    var array = _.values(items);
+    var groups = _.groupBy(items, 'status');
+    var sorted = [];
 
-    array = _.sortBy(array, "secondsLeft", function(elm) {
-      var rank = {
-        Complete: 1,
-        Cooking: 2,
-        Waiting: 3,
-        Unknown: 99
-      };
-      var status = elm.status || "Unknown";
-      return rank[status];
-    });
+    // Complete at the top
+    _(groups["Complete"])
+      .sortBy("added", "asc")
+      .forEach(function(order) { sorted.push(order); }
+      );
 
-    return array;
+    // Cooking sorted by time left, ascending
+    _(groups["Cooking"])
+      .sortBy("secondsLeft", "asc") 
+      .forEach(function(order) { sorted.push(order); }
+      );
+
+    // Waiting sorted by time added (order.added) asc
+    _(groups["Waiting"])
+      .sortBy("added", "asc") 
+      .forEach(function(order) { sorted.push(order); }
+      );
+
+    return sorted;
   };
 });
