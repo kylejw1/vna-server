@@ -29,6 +29,17 @@ module.exports = {
       pastas.push(pasta);
       addEntry(pasta, "pastas");
     }
+  },
+
+  getDefaultCookTimeSeconds: function(type) {
+    switch(type.toLowerCase()) {
+      case "pizza": 
+        return 450;
+      case "pasta":
+        return 330;
+      default: 
+        return 0;
+    }
   }
 
 };

@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var DataService = require('./data.service.js');
 
 var orders = {};
 var index = 0;
@@ -34,6 +35,7 @@ module.exports = {
       id: `${now}${index}`,
       type: orderData.type,
       name: orderData.name,
+      secondsLeft: DataService.getDefaultCookTimeSeconds(orderData.type)
     };
 
     index += 1;

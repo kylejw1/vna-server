@@ -8,8 +8,8 @@
 
     <div class="md-list-item-text" layout="column">
       <h3>{{order.name}}</h3>
-      <h4 ng-hide="order.secondsLeft">{{ order.status }}</h4>
-      <p ng-hide="!order.secondsLeft">{{ order.secondsLeft | secondsToDateTime }}</p>
+      <h4 ng-hide="order.status === 'Cooking'">{{ order.status }}</h4>
+      <p ng-hide="order.status !== 'Cooking'">{{ order.secondsLeft | secondsToDateTime }}</p>
       <md-progress-linear md-mode="determinate" value="{{ order.percentComplete }}"></md-progress-linear>
     </div>
     <md-divider />

@@ -3,8 +3,9 @@ app.controller('EditStatusController', [ '$mdDialog', 'order', 'OrderService',
 
   var vm = this;
 
-  vm.minutes = 0;
-  vm.seconds = 0;
+  var cookTime = parseInt(order.secondsLeft) || 0;
+  vm.minutes = Math.floor(cookTime / 60);
+  vm.seconds = cookTime % 60;
 
   vm.order = order;
 
