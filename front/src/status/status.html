@@ -10,7 +10,7 @@
       <h3>{{order.name}}</h3>
       <h4 ng-hide="order.status === 'Cooking'">{{ order.status }}</h4>
       <p ng-hide="order.status !== 'Cooking'">{{ order.secondsLeft | secondsToDateTime }}</p>
-      <md-progress-linear md-mode="determinate" value="{{ order.percentComplete }}"></md-progress-linear>
+      <md-progress-linear ng-click="statusCtrl.orderClicked($event, order)" md-mode="determinate" value="{{ order.percentComplete }}"></md-progress-linear>
     </div>
     <md-divider />
 
