@@ -48,7 +48,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
   $mdThemingProvider
     .theme('default')
     .primaryPalette('blue')
-    .accentPalette('teal')
+    .accentPalette('blue')
     .warnPalette('red')
     .backgroundPalette('grey');
 
