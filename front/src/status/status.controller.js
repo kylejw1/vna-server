@@ -1,8 +1,8 @@
-app.controller('StatusController', [ 'OrderService', '$mdDialog',
-    function(OrderService, $mdDialog) {
+app.controller('StatusController', [ 'OrderService', '$mdDialog', '$state',
+    function(OrderService, $mdDialog, $state) {
 
   var vm = this;
-
+console.log(JSON.stringify($state.current.config));
   // Get the orders reference.  This collection is updated in real time by the socket
   vm.orders = OrderService.getOrders();
   
