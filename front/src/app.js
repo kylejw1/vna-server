@@ -12,7 +12,14 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
           templateUrl: 'src/main.html',
           controller: 'MainController',
           controllerAs: 'mainCtrl'
-        },
+        }
+      },
+      abstract: true
+    })
+
+    .state('main.menu', {
+      url: '^/menu/:station?typeFilter',
+      views: {
         'left@main': {
           templateUrl: 'src/menu/menu.html',
           controller: 'MenuController',
@@ -31,19 +38,10 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
         pastas: function(DataService) {
           return DataService.getAllByName("pastas");
         }
-      },
-      abstract: true
-    })
-
-    .state('main.front', {
-      url: '^/front',
-      config: {
-        station: "Front",
-        itemTypeFilter: null
       }
     });
-    
-  $urlRouterProvider.otherwise('/front');
+
+  $urlRouterProvider.otherwise('/menu/front');
 
   $mdThemingProvider
     .theme('default')
