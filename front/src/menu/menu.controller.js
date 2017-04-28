@@ -1,9 +1,10 @@
-app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService', 
-    function(vnaSocket, pizzas, pastas, OrderService) {
+app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService', '$state', 
+    function(vnaSocket, pizzas, pastas, OrderService, $state) {
 
   var vm = this;
 
-  vm.selectedType = "pizza";
+  vm.typeFilter = $state.params.typeFilter;
+  vm.selectedType = vm.typeFilter || "pizza";
   vm.types = {
     pizza: pizzas,
     pasta: pastas
