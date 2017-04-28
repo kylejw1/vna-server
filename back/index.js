@@ -17,7 +17,7 @@ app.get('/api/pizzas', dataController.getAllPizzas);
 app.get('/api/pastas', dataController.getAllPastas);
 app.get('/api/orders', orderController.getOrders);
 app.get('/api/time', orderController.getTime);
-
+socket io in client on connect resync the status items
 io.on('connection', socket => {
 
   socket.on('message', data => {
