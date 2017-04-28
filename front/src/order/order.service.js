@@ -15,6 +15,14 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$md
     initExistingOrders();
   });
 
+  vnaSocket.on("disconnect", function() {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent("Connection Lost")
+        .hideDelay(0)
+    );
+  });
+
   // Subscribe to pushed orders
   vnaSocket.on("orderAdded", function(order) {
     if (!order.id) {
