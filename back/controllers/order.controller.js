@@ -15,7 +15,7 @@ module.exports = {
       var order = orderService.createOrder(orderData);
       ioServer.sockets.emit("orderAdded", order);
     } catch(error) {
-      var errString = "createOrder :: " + JSON.stringify(error);
+      var errString = "createOrder :: " + error;
       console.error(errString);
       ioServer.sockets.emit("error", errString);
     }
@@ -26,7 +26,7 @@ module.exports = {
       orderService.deleteOrder(id);
       ioServer.sockets.emit("orderRemoved", id);
     } catch(error) {
-      var errString = "deleteOrder :: " + JSON.stringify(error);
+      var errString = "deleteOrder :: " + error;
       console.error(errString);
       ioServer.sockets.emit("error", errString);
     }
@@ -37,7 +37,7 @@ module.exports = {
       var order = orderService.startOrderTimer(data.id, data.seconds);
       ioServer.sockets.emit("orderTimerStarted", order);
     } catch(error) {
-      var errString = "startOrderTimer :: " + JSON.stringify(error);
+      var errString = "startOrderTimer :: " + error;
       console.error(errString);
       ioServer.sockets.emit("error", errString);
     }

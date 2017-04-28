@@ -1,4 +1,4 @@
-app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", function($http, vnaSocket, $timeout, $interval) {  
+app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$mdToast", function($http, vnaSocket, $timeout, $interval, $mdToast) {  
 
   var orders = {};
 
@@ -8,6 +8,12 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
   sync();
 
   var progressInterval = $interval(updateProgress, 1000);
+
+
+  vnaSocket.on("connect", function() {
+    $mdToast.showSimple("Connected");
+    initExistingOrders();
+  });
 
   // Subscribe to pushed orders
   vnaSocket.on("orderAdded", function(order) {
@@ -30,25 +36,36 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", func
     delete orders[id];
   });
 
-  // Get initial list from server
-  $http.get("/api/orders").then(function(data) {
+  function initExistingOrders() {
 
-    var serverOrders = data.data;
-
-    _.forEach(serverOrders, function(order) {
-      try {
-        if (order.id) {
-          if (orders[order.id]) {
-            _.assign(orders[order.id], order);
-          } else {
-            addOrder(order);
-          }
-        }
-      } catch(err) {
-        console.error("Error updating order :: " + JSON.stringify(err));
-      }
+    _(orders).keys().forEach(function(key) {
+      delete orders[key];
     });
-  });
+
+    // Get initial list from server
+    $http.get("/api/orders").then(function(data) {
+      _.forEach(data.data, addOrder);
+    });
+    // // Get initial list from server
+    // $http.get("/api/orders").then(function(data) {
+
+    //   var serverOrders = data.data;
+
+    //   _.forEach(serverOrders, function(order) {
+    //     try {
+    //       if (order.id) {
+    //         if (orders[order.id]) {
+    //           _.assign(orders[order.id], order);
+    //         } else {
+    //           addOrder(order);
+    //         }
+    //       }
+    //     } catch(err) {
+    //       console.error("Error updating order :: " + JSON.stringify(err));
+    //     }
+    //   });
+    // });
+  }
 
   function addOrder(order) {
 

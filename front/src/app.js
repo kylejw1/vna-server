@@ -52,12 +52,13 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
 });
 
-app.factory('vnaSocket', function(socketFactory) {
+app.factory('vnaSocket', ['socketFactory', '$mdToast', function(socketFactory, $mdToast) {
   var vnaSocket = socketFactory();
 
   vnaSocket.on("error", function(data) {
+    $mdToast.showSimple(data);
     console.error("Upstream error :: " + data);
   });
 
   return vnaSocket;
-});
+}]);
