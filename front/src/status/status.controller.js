@@ -2,9 +2,10 @@ app.controller('StatusController', [ 'OrderService', '$mdDialog', '$state',
     function(OrderService, $mdDialog, $state) {
 
   var vm = this;
-  
+
   // Get the orders reference.  This collection is updated in real time by the socket
   vm.orders = OrderService.getOrders();
+  vm.typeFilter = $state.params.typeFilter;
   
   vm.orderClicked = function(event, order) {
     if (order.status !== "Complete") {

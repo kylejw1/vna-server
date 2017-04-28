@@ -2,7 +2,7 @@
 
   <md-list-item 
     class="md-3-line repeat-item" 
-    ng-repeat="order in statusCtrl.orders | orderStatus: 'status'" 
+    ng-repeat="order in statusCtrl.orders | orderStatus | filter : { type: statusCtrl.typeFilter }" 
     ng-click="statusCtrl.orderClicked($event, order)" 
     md-colors="{background: order.status === 'Waiting' ? 'blue-50' : 'green-200' }">
 

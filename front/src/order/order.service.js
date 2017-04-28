@@ -1,11 +1,12 @@
-app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$mdToast", function($http, vnaSocket, $timeout, $interval, $mdToast) {  
+app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$mdToast", 
+    function($http, vnaSocket, $timeout, $interval, $mdToast) {  
 
   var orders = {};
 
   var timeOffset = 0;
 
-  var syncInterval = $interval(sync, 15000);
-  sync();
+  var syncInterval = $interval(syncTime, 15000);
+  syncTime();
 
   var progressInterval = $interval(updateProgress, 1000);
 
@@ -54,25 +55,6 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$md
     $http.get("/api/orders").then(function(data) {
       _.forEach(data.data, addOrder);
     });
-    // // Get initial list from server
-    // $http.get("/api/orders").then(function(data) {
-
-    //   var serverOrders = data.data;
-
-    //   _.forEach(serverOrders, function(order) {
-    //     try {
-    //       if (order.id) {
-    //         if (orders[order.id]) {
-    //           _.assign(orders[order.id], order);
-    //         } else {
-    //           addOrder(order);
-    //         }
-    //       }
-    //     } catch(err) {
-    //       console.error("Error updating order :: " + JSON.stringify(err));
-    //     }
-    //   });
-    // });
   }
 
   function addOrder(order) {
@@ -115,7 +97,7 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$md
     });
   }
 
-  function sync() {
+  function syncTime() {
 
     // Update time offset (in case this device cannot reach a timeserver)
     $http.get("/api/time").then(function(data) {
@@ -125,39 +107,6 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$md
     }).catch(function(err) {
       console.error("Failed to sync time :: " + JSON.stringify(err));
     });
-    
-    // Request all existing orders from the server
-    // $http.get("/api/orders").then(function(data) {
-
-    //   var serverOrders = data.data;
-
-    //   // var missingOrders = _.reject(orders, function(order) {
-    //   //   return serverOrders[order.id];
-    //   // });
-
-    //   // _.forEach(missingOrders, function(order) {
-    //   //   try {
-    //   //     console.log("Removing order as it is missing from server :: " + order.id + " :: " + order.name);
-    //   //     delete orders[order.id];
-    //   //   } catch(err) {
-    //   //     console.error("Error removing order :: " + JSON.stringify(err));
-    //   //   }
-    //   // })
-
-    //   _.forEach(serverOrders, function(order) {
-    //     try {
-    //       if (order.id) {
-    //         if (orders[order.id]) {
-    //           _.assign(orders[order.id], order);
-    //         } else {
-    //           addOrder(order);
-    //         }
-    //       }
-    //     } catch(err) {
-    //       console.error("Error updating order :: " + JSON.stringify(err));
-    //     }
-    //   });
-    // });
 
   }
 
