@@ -18,7 +18,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     })
 
     .state('main.menu', {
-      url: '^/menu/:station?typeFilter',
+      url: '^/menu/:station?typeFilter&hideLeftPane',
       views: {
         'left@main': {
           templateUrl: 'src/menu/menu.html',

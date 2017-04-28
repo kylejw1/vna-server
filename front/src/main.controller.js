@@ -17,7 +17,8 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
     { 
       name: "Back Pizza", 
       station: "pizza",
-      typeFilter: "pizza"
+      typeFilter: "pizza",
+      hideLeftPane: true
     },
     { 
       name: "Back Pasta", 
@@ -27,6 +28,7 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
   ];
 
   vm.selectedLocation = _.find(vm.locations, { station: $state.params.station });
+  vm.state = $state;
 
   vm.configurations = [
     { name: "Pizza Types" },
@@ -35,7 +37,11 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
 
   vm.locationClicked = function(location) {
     vm.selectedLocation = location; 
-    $state.go('main.menu', {station: location.station, typeFilter: location.typeFilter});
+    $state.go('main.menu', {
+      station: location.station, 
+      typeFilter: location.typeFilter,
+      hideLeftPane: location.hideLeftPane
+    });
     $mdSidenav('left').close();
   };
 
