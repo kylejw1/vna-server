@@ -25,7 +25,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
           controller: 'MenuController',
           controllerAs: 'menuCtrl'
         },
-        'right@main': {
+        'middle@main': {
           templateUrl: 'src/status/status.html',
           controller: 'StatusController',
           controllerAs: 'statusCtrl'

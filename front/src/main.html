@@ -5,13 +5,17 @@
   <div class="md-toolbar-tools">
     
     <md-button aria-label="Settings" ng-click="mainCtrl.sideNavToggle()">
-      <md-icon class="md-icon-button" ng-disabled>menu</md-icon>
+      <md-icon class="md-icon-button">menu</md-icon>
     </md-button>
 
     <h2 flex="" md-truncate="" ng-click="mainCtrl.sideNavToggle()">Verona Order Queue  -  {{mainCtrl.selectedLocation.name}}</h2>
 
+    <md-button aria-label="Toggle Order Buttons" ng-click="mainCtrl.sideNavToggle()" >
+      <md-icon class="md-icon-button">add_box</md-icon> Order
+    </md-button>
+
     <md-button id="fullscreen-button" onclick="toggleFullscreen(document.documentElement);">
-      <md-icon class="md-icon-button">fullscreen</md-icon> Toggle Fullscreen
+      <md-icon class="md-icon-button">fullscreen</md-icon> Fullscreen
     </md-button>
     
   </div>
@@ -35,10 +39,6 @@
         <md-divider />
       </md-list-item>
 
-      <md-list-item class="md-1-line">
-        <md-switch class="md-primary" md-invert>Order Buttons</md-switch>
-        <md-divider />
-      </md-list-item>
     </md-list>
 
     <md-toolbar class="md-hue-2">
@@ -56,13 +56,17 @@
 
 <!-- LEFT SIDENAV END -->
 
-<!-- NESTED VIEW START -->
-  <md-content ui-view="left" flex="80" ng-hide="mainCtrl.state.params.hideLeftPane" ></md-content>
-<!-- NESTED VIEW END -->
+<!-- LEFT VIEW START -->
+  <md-content ui-view="left" flex="{{mainCtrl.size.left}}" ></md-content>
+<!-- LEFT VIEW END -->
 
-<!-- STATUS VIEW START -->
-  <md-content ui-view="right" flex ></md-content>
-<!-- STATUS VIEW END -->
+<!-- MIDDLE VIEW START -->
+  <md-content ui-view="middle" flex="{{mainCtrl.size.middle}}" ></md-content>
+<!-- MIDDLE VIEW END -->
+
+<!-- RIGHT VIEW START -->
+  <md-content ui-view="right" flex="{{mainCtrl.size.right}}" ></md-content>
+<!-- RIGHT VIEW END -->
 
 </md-content>
 

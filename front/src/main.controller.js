@@ -3,6 +3,12 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
 
   var vm = this;
 
+  vm.size = {
+    left: $state.params.leftFlex || 80,
+    middle: $state.params.middleFlex || 20,
+    right: $state.params.rightFlex || 0
+  }
+
   vm.locations = [
     { 
       name: "Front", 
