@@ -18,14 +18,14 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     })
 
     .state('main.menu', {
-      url: '^/menu/:station?typeFilter&hideLeftPane',
+      url: '^/menu/:station?typeFilter&columns',
       views: {
         'left@main': {
           templateUrl: 'src/menu/menu.html',
           controller: 'MenuController',
           controllerAs: 'menuCtrl'
         },
-        'middle@main': {
+        'right@main': {
           templateUrl: 'src/status/status.html',
           controller: 'StatusController',
           controllerAs: 'statusCtrl'

@@ -10,8 +10,8 @@
 
     <h2 flex="" md-truncate="" ng-click="mainCtrl.sideNavToggle()">Verona Order Queue  -  {{mainCtrl.selectedLocation.name}}</h2>
 
-    <md-button aria-label="Toggle Order Buttons" ng-click="mainCtrl.sideNavToggle()" >
-      <md-icon class="md-icon-button">add_box</md-icon> Order
+    <md-button aria-label="Toggle Order Buttons" ng-click="mainCtrl.layoutToggle()" >
+      <md-icon class="md-icon-button">view_module</md-icon> View
     </md-button>
 
     <md-button id="fullscreen-button" onclick="toggleFullscreen(document.documentElement);">
@@ -56,17 +56,17 @@
 
 <!-- LEFT SIDENAV END -->
 
+  <md-content flex="20" ng-show="mainCtrl.columns === 1"></md-content>
+
 <!-- LEFT VIEW START -->
-  <md-content ui-view="left" flex="{{mainCtrl.size.left}}" ></md-content>
+  <md-content ui-view="left" flex="80" ng-show="mainCtrl.columns === 2"></md-content>
 <!-- LEFT VIEW END -->
 
-<!-- MIDDLE VIEW START -->
-  <md-content ui-view="middle" flex="{{mainCtrl.size.middle}}" layout-margin="200px"></md-content>
-<!-- MIDDLE VIEW END -->
-
 <!-- RIGHT VIEW START -->
-  <md-content ui-view="right" flex="{{mainCtrl.size.right}}" ></md-content>
+  <md-content ui-view="right" flex></md-content>
 <!-- RIGHT VIEW END -->
+
+  <md-content flex="20" ng-show="mainCtrl.columns === 1"></md-content>
 
 </md-content>
 

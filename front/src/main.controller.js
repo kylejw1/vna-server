@@ -3,33 +3,38 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
 
   var vm = this;
 
-  vm.size = {
-    left: $state.params.leftFlex || 80,
-    middle: $state.params.middleFlex || 20,
-    right: $state.params.rightFlex || 0
-  }
+  vm.columns = parseInt($state.params.columns) || 2;
+
+  vm.layoutToggle = function() {
+    params = _.clone($state.params);
+    params.columns = params.columns === 1 ? 2 : 1;
+    $state.go($state.current.name, params);
+  };
 
   vm.locations = [
     { 
       name: "Front", 
       station: "front",
-      typeFilter: null
+      typeFilter: null,
+      layout: "twoColumnLayout"
     },
     { 
       name: "Back Oven", 
       station: "oven",
-      typeFilter: null
+      typeFilter: null,
+      layout: "twoColumnLayout"
     },
     { 
       name: "Back Pizza", 
       station: "pizza",
       typeFilter: "pizza",
-      hideLeftPane: true
+      layout: "oneColumnLayout"
     },
     { 
       name: "Back Pasta", 
       station: "pasta",
-      typeFilter: "pasta"
+      typeFilter: "pasta",
+      layout: "twoColumnLayout"
     }
   ];
 
@@ -46,7 +51,7 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
     $state.go('main.menu', {
       station: location.station, 
       typeFilter: location.typeFilter,
-      hideLeftPane: location.hideLeftPane
+      layout: location.layout
     });
     $mdSidenav('left').close();
   };
