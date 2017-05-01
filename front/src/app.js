@@ -52,8 +52,21 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
 });
 
-app.factory('vnaSocket', ['socketFactory', '$mdToast', function(socketFactory, $mdToast) {
+var currentVersion = null;
+app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', function(socketFactory, $mdToast, $window, $interval) {
   var vnaSocket = socketFactory();
+
+  vnaSocket.on("version", function(version) {
+    if (currentVersion && currentVersion !== version) {
+      $mdToast.showSimple("Version mismatch: " + currentVersion + " -> " + version);
+      $interval(function() {
+        $window.location.reload();
+      }, 3000, 1);
+    } else {
+      console.log("Back end version: " + version);
+      currentVersion = version;
+    }
+  });
 
   vnaSocket.on("error", function(data) {
     $mdToast.showSimple(data);

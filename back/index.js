@@ -4,6 +4,7 @@ var http = require('http');
 var serveStatic = require('serve-static');
 var dataController = require('./controllers/data.controller.js');
 var orderController = require('./controllers/order.controller.js');
+var package = require('./package.json');
 
 var app = express();
 var server = http.createServer(app);
@@ -19,6 +20,9 @@ app.get('/api/orders', orderController.getOrders);
 app.get('/api/time', orderController.getTime);
 
 io.on('connection', socket => {
+
+  // Let the clients know the current version in case they need to reload
+  socket.emit('version', package.version);
 
   socket.on('message', data => {
     console.log('received message: ', JSON.stringify(data));
