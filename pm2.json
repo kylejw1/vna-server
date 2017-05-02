@@ -1,0 +1,9 @@
+{
+  "apps" : [{
+    "name"        : "vna-server",
+    "script"      : "./index.js",
+    "cwd"         : "./back",
+    "watch"       : true,
+    "ignore_watch": ["config"]
+  }]
+}

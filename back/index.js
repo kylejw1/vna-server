@@ -4,11 +4,12 @@ var http = require('http');
 var serveStatic = require('serve-static');
 var dataController = require('./controllers/data.controller.js');
 var orderController = require('./controllers/order.controller.js');
-var package = require('./package.json');
 
 var app = express();
 var server = http.createServer(app);
 var io = io.listen(server);
+
+var startTime = new Date().getTime();
 
 app.use(serveStatic('../front', { maxAge: 0, setHeaders: setCustomCacheControl }));
 app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
@@ -22,7 +23,7 @@ app.get('/api/time', orderController.getTime);
 io.on('connection', socket => {
 
   // Let the clients know the current version in case they need to reload
-  socket.emit('version', package.version);
+  socket.emit('version', startTime);
 
   socket.on('message', data => {
     console.log('received message: ', JSON.stringify(data));

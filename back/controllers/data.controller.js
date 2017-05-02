@@ -8,7 +8,7 @@ module.exports = {
 
   getAllPastas: function(req, res) {
     return res.send(dataService.getAllPastas());
-  },
+  }, 
 
   addPizza: function(req, res) {
 
