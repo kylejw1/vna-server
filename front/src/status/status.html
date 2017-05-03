@@ -7,7 +7,7 @@
     md-colors="{background: order.status === 'Waiting' ? 'blue-50' : 'green-200' }">
 
     <div class="md-list-item-text" layout="column">
-      <h3>{{order.name}}</h3>
+      <h3>lol{{order.name}}</h3>
       <h4 ng-hide="order.status === 'Cooking'">{{ order.status }}</h4>
       <p ng-hide="order.status !== 'Cooking'">{{ order.secondsLeft | secondsToDateTime }}</p>
       <md-progress-linear ng-click="statusCtrl.orderClicked($event, order)" md-mode="determinate" value="{{ order.percentComplete }}"></md-progress-linear>
