@@ -1,8 +1,9 @@
 
 <md-nav-bar
+  ng-hide="menuCtrl.typeFilter"
   md-selected-nav-item="menuCtrl.selectedType"
   nav-bar-aria-label="navigation links">
-  <md-nav-item ng-hide="menuCtrl.typeFilter" ng-repeat="(type, names) in menuCtrl.types" md-nav-click="goto(type)" name="{{type}}">
+  <md-nav-item ng-repeat="(type, names) in menuCtrl.types" md-nav-click="goto(type)" name="{{type}}">
     {{ type }}
   </md-nav-item>
   
