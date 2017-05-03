@@ -57,15 +57,18 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', f
   var vnaSocket = socketFactory();
 
   vnaSocket.on("version", function(version) {
-    if (currentVersion && currentVersion !== version) {
-      $mdToast.showSimple("Version mismatch: " + currentVersion + " -> " + version);
+
+    var versionNumber = version.version;
+    if (currentVersion && currentVersion !== versionNumber) {
+      $mdToast.showSimple("Version mismatch: " + currentVersion + " -> " + versionNumber);
       $interval(function() {
         $window.location.reload();
       }, 3000, 1);
     } else {
-      console.log("Back end version: " + version);
-      currentVersion = version;
+      console.log("Back end version: " + versionNumber);
+      currentVersion = versionNumber;
     }
+    console.log("Uptime: " + version.uptime);
   });
 
   vnaSocket.on("error", function(data) {

@@ -23,7 +23,10 @@ app.get('/api/time', orderController.getTime);
 io.on('connection', socket => {
 
   // Let the clients know the current version in case they need to reload
-  socket.emit('version', startTime);
+  socket.emit('version', {
+    version: startTime,
+    uptime: process.uptime()
+  });
 
   socket.on('message', data => {
     console.log('received message: ', JSON.stringify(data));
