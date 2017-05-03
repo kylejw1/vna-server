@@ -4,12 +4,14 @@ var http = require('http');
 var serveStatic = require('serve-static');
 var dataController = require('./controllers/data.controller.js');
 var orderController = require('./controllers/order.controller.js');
+var git = require('git-rev-sync');
 
 var app = express();
 var server = http.createServer(app);
 var io = io.listen(server);
 
-var startTime = new Date().getTime();
+
+var version = `${git.branch()}:${git.short()}`;
 
 app.use(serveStatic('../front', { maxAge: 0, setHeaders: setCustomCacheControl }));
 app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
@@ -24,7 +26,7 @@ io.on('connection', socket => {
 
   // Let the clients know the current version in case they need to reload
   socket.emit('version', {
-    version: startTime,
+    version: version,
     uptime: process.uptime()
   });
 
