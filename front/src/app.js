@@ -68,7 +68,7 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', f
       console.log("Back end version: " + versionNumber);
       currentVersion = versionNumber;
     }
-    console.log("Uptime: " + version.uptime);
+    console.log("Uptime: " + version.uptime);//.substr(11, 8));
   });
 
   vnaSocket.on("error", function(data) {

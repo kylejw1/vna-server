@@ -7,8 +7,8 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
 
   vm.layoutToggle = function() {
     params = _.clone($state.params);
-    params.columns = params.columns === 1 ? 2 : 1;
-    $state.go($state.current.name, params);
+    params.columns = vm.columns === 1 ? 2 : 1;
+    $state.go($state.current.name, params, { reload: true });
   };
 
   vm.locations = [
@@ -16,25 +16,25 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
       name: "Front", 
       station: "front",
       typeFilter: null,
-      layout: "twoColumnLayout"
+      columns: 2
     },
     { 
       name: "Back Oven", 
       station: "oven",
       typeFilter: null,
-      layout: "twoColumnLayout"
+      columns: 2
     },
     { 
       name: "Back Pizza", 
       station: "pizza",
       typeFilter: "pizza",
-      layout: "oneColumnLayout"
+      columns: 1
     },
     { 
       name: "Back Pasta", 
       station: "pasta",
       typeFilter: "pasta",
-      layout: "twoColumnLayout"
+      columns: 2
     }
   ];
 
@@ -51,7 +51,10 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
     $state.go('main.menu', {
       station: location.station, 
       typeFilter: location.typeFilter,
-      layout: location.layout
+      layout: location.layout,
+      columns: location.columns
+    },{
+      reload: true
     });
     $mdSidenav('left').close();
   };
