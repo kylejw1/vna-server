@@ -7,8 +7,7 @@ then
   exit 1
 fi
 
-echo checking out ${latesttag}
-git checkout ${latesttag}
+git pull origin release
 cd back
 npm install
 cd ../front
