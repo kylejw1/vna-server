@@ -11,14 +11,9 @@
 <md-grid-list md-cols="6" md-gutter="1em" md-row-height="4:3" ng-class="{fullscreen: menuCtrl.isFullScreen}">
   
   <md-grid-tile ng-repeat="name in menuCtrl.types[menuCtrl.selectedType]">
-    <div layout layout-fill> 
-      <md-button  class="md-raised md-primary" 
-        flex md-colors="{background: 'blue-100'}" 
-        style="white-space: normal;"
-        ng-click="menuCtrl.createOrder(name)">
-        {{name}}
-      </md-button>
-    </div>
+    <md-whiteframe class="md-whiteframe-6dp" flex layout layout-fill layout-align="center center" md-ink-ripple md-colors="{background: 'blue-100'}" ng-click="menuCtrl.createOrder(name)">
+        <center>{{name}}</center>
+    </md-whiteframe>
   </md-grid-tile>
 
 </md-grid-list>

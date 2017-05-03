@@ -14,3 +14,14 @@
   opacity:1;
  
 }
+
+/* No border on button click */
+md-whiteframe:focus {
+  outline: none;
+  border: 0; 
+}
+
+/* Margin around order button grid */
+md-grid-list {
+  margin: 15px;
+}
