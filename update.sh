@@ -7,7 +7,8 @@ then
   exit 1
 fi
 
-git pull origin release
+git checkout release
+git pull
 cd back
 npm install
 cd ../front
