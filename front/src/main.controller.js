@@ -7,8 +7,8 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
 
   vm.layoutToggle = function() {
     params = _.clone($state.params);
-    params.columns = params.columns === 1 ? 2 : 1;
-    $state.go($state.current.name, params);
+    params.columns = vm.columns === 1 ? 2 : 1;
+    $state.go($state.current.name, params, { reload: true });
   };
 
   vm.locations = [
