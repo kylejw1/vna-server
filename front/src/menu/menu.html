@@ -8,10 +8,16 @@
   
 </md-nav-bar>
 
+<md-toolbar ng-show="menuCtrl.isEditing()" class="md-hue-3">
+  <h2 class="md-toolbar-tools">
+    <span>* EDITING *</span>
+  </h2>
+</md-toolbar>
+
 <md-grid-list md-cols="6" md-gutter="1em" md-row-height="4:3" ng-class="{fullscreen: menuCtrl.isFullScreen}">
   
   <md-grid-tile ng-repeat="name in menuCtrl.types[menuCtrl.selectedType]">
-    <md-whiteframe class="md-whiteframe-6dp noselect" flex layout layout-fill layout-align="center center" md-ink-ripple md-colors="{background: '{{menuCtrl.buttonColor}}'}" ng-click="menuCtrl.itemClicked(name)">
+    <md-whiteframe class="md-whiteframe-6dp noselect" flex layout layout-fill layout-align="center center" md-ink-ripple md-colors="{background: 'blue-100'}" ng-click="menuCtrl.itemClicked(name)">
         <center>{{name}}</center>
     </md-whiteframe>
   </md-grid-tile>
