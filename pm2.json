@@ -4,6 +4,6 @@
     "script"      : "./index.js",
     "cwd"         : "./back",
     "watch"       : ["../back", "../front"],
-    "ignore_watch": ["config"]
+    "ignore_watch": ["config", "../.git", "node_modules", "../front/bower_components"]
   }]
 }
