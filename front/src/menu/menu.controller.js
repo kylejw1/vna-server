@@ -3,6 +3,8 @@ app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService
 
   var vm = this;
 
+  vm.mode = $state.params.mode || "order";
+
   vm.typeFilter = $state.params.typeFilter;
   vm.selectedType = vm.typeFilter || "pizza";
   vm.types = {
@@ -10,14 +12,13 @@ app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService
     pasta: pastas
   };
 
-  // vm.createOrder = function(name) {
-  //   OrderService.createOrder(vm.selectedType, name);
-  // };
+  vm.buttonColor = vm.mode === "edit" ? 'red-100' : 'blue-100';
 
-  vm.createOrder = function(name) {
-    editMenuPrompt(name, event);
+  vm.itemClicked = vm.mode === "edit" ? editMenuPrompt : createOrder;
+
+  function createOrder(name) {
+    OrderService.createOrder(vm.selectedType, name);
   };
-
 
   function editMenuPrompt(name, event) {
     $mdDialog.show({

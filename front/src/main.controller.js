@@ -14,45 +14,52 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
   vm.locations = [
     { 
       name: "Front", 
-      station: "front",
       typeFilter: null,
-      columns: 2
+      columns: 2,
+      mode: 'order'
     },
     { 
       name: "Back Oven", 
-      station: "oven",
       typeFilter: null,
-      columns: 2
+      columns: 2,
+      mode: 'order'
     },
     { 
       name: "Back Pizza", 
-      station: "pizza",
       typeFilter: "pizza",
-      columns: 1
+      columns: 1,
+      mode: 'order'
     },
     { 
       name: "Back Pasta", 
-      station: "pasta",
       typeFilter: "pasta",
-      columns: 2
+      columns: 2,
+      mode: 'order'
+    },
+    { 
+      name: "Pizza Types",
+      typeFilter: "pizza",
+      columns: 2,
+      mode: "edit"
+    },
+    { 
+      name: "Pasta Types",
+      typeFilter: "pasta",
+      columns: 2,
+      mode: "edit"
     }
   ];
 
-  vm.selectedLocation = _.find(vm.locations, { station: $state.params.station });
+  vm.selectedLocation = _.find(vm.locations, { name: $state.params.name || "Front" });
   vm.state = $state;
-
-  vm.configurations = [
-    { name: "Pizza Types" },
-    { name: "Pasta Types" }
-  ];
 
   vm.locationClicked = function(location) {
     vm.selectedLocation = location; 
     $state.go('main.menu', {
-      station: location.station, 
+      name: location.name, 
       typeFilter: location.typeFilter,
-      layout: location.layout,
-      columns: location.columns
+      columns: location.columns,
+      mode: location.mode
     },{
       reload: true
     });

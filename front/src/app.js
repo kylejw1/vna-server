@@ -18,7 +18,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     })
 
     .state('main.menu', {
-      url: '^/menu/:station?typeFilter&columns',
+      url: '^/menu?name&typeFilter&columns&mode',
       views: {
         'left@main': {
           templateUrl: 'src/menu/menu.html',
@@ -41,7 +41,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       }
     });
 
-  $urlRouterProvider.otherwise('/menu/front');
+  $urlRouterProvider.otherwise('/menu');
 
   $mdThemingProvider
     .theme('default')
