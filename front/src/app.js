@@ -1,5 +1,5 @@
 
-var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io']);
+var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io', 'material.components.keyboard']);
 
 app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
