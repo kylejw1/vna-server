@@ -24,7 +24,7 @@ app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService
 
   function editMenuPrompt(name, event) {
     $mdDialog.show({
-      locals: { name: name },
+      locals: { name: name, type: vm.selectedType },
       controller: 'EditMenuController',
       controllerAs: 'editMenuCtrl',
       templateUrl: 'src/menu/edit.menu.tmpl.html',

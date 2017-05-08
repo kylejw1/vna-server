@@ -7,6 +7,14 @@ app.service('DataService', ["$http", function($http) {
         .then(function(data) {
           return data.data;
         });
+    },
+
+    create: function(name, type) {
+      return $http.put("/api/" + type + "?name=" + name);
+    },
+
+    delete: function(name, type) {
+      return $http.delete("/api/data/" + type + "/" + name);
     }
 
   }

@@ -15,10 +15,11 @@ var version = `${git.branch()}:${git.short()}`;
 
 app.use(serveStatic('../front', { maxAge: 0, setHeaders: setCustomCacheControl }));
 app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
-app.post('/api/pizza', dataController.addPizza);
-app.post('/api/pasta', dataController.addPasta);
-app.get('/api/pizzas', dataController.getAllPizzas);
-app.get('/api/pastas', dataController.getAllPastas);
+app.put('/api/pizza', dataController.addPizza);
+app.put('/api/pasta', dataController.addPasta);
+app.get('/api/pizza', dataController.getAllPizzas);
+app.get('/api/pasta', dataController.getAllPastas);
+app.delete('/api/data/:type/:name', dataController.deleteItem);
 app.get('/api/orders', orderController.getOrders);
 app.get('/api/time', orderController.getTime);
 

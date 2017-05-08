@@ -1,5 +1,5 @@
-app.controller('EditMenuController', [ '$mdDialog', 'name', '$scope',
-    function($mdDialog, name, $scope) {
+app.controller('EditMenuController', [ '$mdDialog', 'name', 'type', '$scope', 'DataService', '$timeout',
+    function($mdDialog, name, type, $scope, DataService, $timeout) {
 
   var vm = this;
 
@@ -10,10 +10,15 @@ app.controller('EditMenuController', [ '$mdDialog', 'name', '$scope',
   };
 
   vm.deleteClicked = function() {
+    DataService.delete(name, type);
     vm.hide();
   };
 
   vm.saveClicked = function() {
+    if (vm.name !== name) {
+      DataService.delete(name, type);
+      DataService.create(vm.name, type);
+    }
     vm.hide();
   };
 
@@ -26,7 +31,11 @@ app.controller('EditMenuController', [ '$mdDialog', 'name', '$scope',
   }, 150);
 
   $scope.$on('$destroy', function() {
-    $timeout.cancel(vm.timeout);
+    try {
+      $timeout.cancel(vm.timeout);
+    } catch(err) {
+      console.log(err);
+    }
   });
 
 }]);

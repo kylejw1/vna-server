@@ -1,7 +1,7 @@
 
 var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io', 'onScreenKeyboard']);
 
-app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $httpProvider) {
 
   $stateProvider
     
@@ -33,10 +33,10 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
       },
       resolve: {
         pizzas: function(DataService) { 
-          return DataService.getAllByName("pizzas");
+          return DataService.getAllByName("pizza");
         },
         pastas: function(DataService) {
-          return DataService.getAllByName("pastas");
+          return DataService.getAllByName("pasta");
         }
       }
     });
@@ -49,6 +49,8 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     .accentPalette('blue')
     .warnPalette('red')
     .backgroundPalette('grey');
+
+  $httpProvider.interceptors.push('httpInterceptor');
 
 });
 
@@ -77,4 +79,29 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', f
   });
 
   return vnaSocket;
+}]);
+
+app.factory('httpInterceptor', ['$injector', function($injector) {
+
+
+  return {
+        request: function(config) {
+      return config;
+    },
+
+    requestError: function(config) {
+      return config;
+    },
+
+    response: function(res) {
+      return res;
+    },
+    responseError: function(res) {
+      var mdToast = $injector.get("$mdToast");
+      var msg = res.status + " :: " + res.statusText;
+      mdToast.showSimple(msg);
+      console.error("HTTP error :: ", msg);
+      return res;
+    }
+  };
 }]);

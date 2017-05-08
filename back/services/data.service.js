@@ -5,8 +5,8 @@ var pizzas, pastas;
 module.exports = {
 
   initialize: function() {
-    pizzas = getAllByName("pizzas");
-    pastas = getAllByName("pastas");
+    pizzas = getAllByName("pizza");
+    pastas = getAllByName("pasta");
   },
 
   getAllPizzas: function() {
@@ -17,17 +17,21 @@ module.exports = {
     return pastas;
   },
 
+  deleteItem: function(name, type) {
+    removeEntry(name, type);
+  },
+
   addPizza: function(pizza) {
     if(pizzas.indexOf(pizza) < 0) {
       pizzas.push(pizza);
-      addEntry(pizza, "pizzas");
+      addEntry(pizza, "pizza");
     }
   },
 
   addPasta: function(pasta) {
     if(pastas.indexOf(pasta) < 0) {
       pastas.push(pasta);
-      addEntry(pasta, "pastas");
+      addEntry(pasta, "pasta");
     }
   },
 
@@ -61,6 +65,13 @@ function addEntry(name, type) {
     });
   } catch(err) {
     console.log(`Failed to create item ${name} in ${type}`);
+  }
+}
+
+function removeEntry(name, type) {
+  var path = `config/${type}/${name}`;
+  if (fs.existsSync(path)) {
+    fs.unlinkSync(path);
   }
 }
 

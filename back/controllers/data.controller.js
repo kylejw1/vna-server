@@ -10,6 +10,15 @@ module.exports = {
     return res.send(dataService.getAllPastas());
   }, 
 
+  deleteItem: function(req, res) {
+    try {
+      dataService.deleteItem(req.params.name, req.params.type);
+      res.ok();
+    } catch(err) {
+      res.status(500).send(err.message);
+    }
+  },
+
   addPizza: function(req, res) {
 
     // TODO: Notify clients
