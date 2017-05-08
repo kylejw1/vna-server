@@ -1,36 +1,37 @@
 var fs = require('fs');
 
-var pizzas, pastas;
+var types = {};
 
 module.exports = {
 
   initialize: function() {
-    pizzas = getAllByName("pizza");
-    pastas = getAllByName("pasta");
+    types.pizza = getAllByName("pizza");
+    types.pasta = getAllByName("pasta");
   },
 
   getAllPizzas: function() {
-    return pizzas;
+    return types.pizza;
   },
 
   getAllPastas: function() {
-    return pastas;
+    return types.pasta;
   },
 
   deleteItem: function(name, type) {
+    delete types[type][name];
     removeEntry(name, type);
   },
 
   addPizza: function(pizza) {
-    if(pizzas.indexOf(pizza) < 0) {
-      pizzas.push(pizza);
+    if(types.pizza.indexOf(pizza) < 0) {
+      types.pizza.push(pizza);
       addEntry(pizza, "pizza");
     }
   },
 
   addPasta: function(pasta) {
-    if(pastas.indexOf(pasta) < 0) {
-      pastas.push(pasta);
+    if(types.pasta.indexOf(pasta) < 0) {
+      types.pasta.push(pasta);
       addEntry(pasta, "pasta");
     }
   },
