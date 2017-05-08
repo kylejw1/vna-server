@@ -15,8 +15,13 @@ app.controller('EditMenuController', [ '$mdDialog', 'name', 'type', '$scope', 'D
   };
 
   vm.saveClicked = function() {
-    if (vm.name !== name) {
-      DataService.delete(name, type);
+
+    if (vm.name && vm.name !== name) {
+      // No such thing as update, instead just delete existing and create new
+      if (name) {
+        DataService.delete(name, type);
+      }
+
       DataService.create(vm.name, type);
     }
     vm.hide();

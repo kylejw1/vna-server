@@ -22,4 +22,10 @@
     </md-whiteframe>
   </md-grid-tile>
 
+  <md-grid-tile ng-show="menuCtrl.isEditing()">
+    <md-whiteframe class="md-whiteframe-6dp noselect" flex layout layout-fill layout-align="center center" md-ink-ripple md-colors="{background: 'blue-50'}" ng-click="menuCtrl.addItemClicked(name)">
+        <center><md-icon class="md-icon-button">add_box</md-icon></center>
+    </md-whiteframe>
+  </md-grid-tile>
+
 </md-grid-list>

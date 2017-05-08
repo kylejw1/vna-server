@@ -17,6 +17,7 @@ app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService
   };
 
   vm.itemClicked = vm.isEditing() ? editMenuPrompt : createOrder;
+  vm.addItemClicked = editMenuPrompt;
 
   function createOrder(name) {
     OrderService.createOrder(vm.selectedType, name);
