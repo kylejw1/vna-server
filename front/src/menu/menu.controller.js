@@ -1,9 +1,12 @@
-app.controller('MenuController', ['vnaSocket', 'pizzas', 'pastas', 'OrderService', '$state', '$mdDialog', 
-    function(vnaSocket, pizzas, pastas, OrderService, $state, $mdDialog) {
+app.controller('MenuController', ['vnaSocket', 'OrderService', '$state', '$mdDialog', 'DataService',
+    function(vnaSocket, OrderService, $state, $mdDialog, DataService) {
 
   var vm = this;
 
-  vm.mode = $state.params.mode || "order";
+  vm.mode = $state.params.mode || "order"; 
+  
+  var pizzas = DataService.getPizzas();
+  var pastas = DataService.getPastas();
 
   vm.isEditing = function() {
     return vm.mode === "edit";

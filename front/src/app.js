@@ -30,14 +30,6 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $htt
           controller: 'StatusController',
           controllerAs: 'statusCtrl'
         }
-      },
-      resolve: {
-        pizzas: function(DataService) { 
-          return DataService.getAllByName("pizza");
-        },
-        pastas: function(DataService) {
-          return DataService.getAllByName("pasta");
-        }
       }
     });
 
@@ -55,7 +47,8 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $htt
 });
 
 var currentVersion = null;
-app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', function(socketFactory, $mdToast, $window, $interval) {
+app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', 
+    function(socketFactory, $mdToast, $window, $interval, menuController) {
   var vnaSocket = socketFactory();
 
   vnaSocket.on("version", function(data) {

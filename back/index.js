@@ -13,6 +13,8 @@ var io = io.listen(server);
 
 var version = `${git.branch()}:${git.short()}`;
 
+dataController.setIo(io);
+
 app.use(serveStatic('../front', { maxAge: 0, setHeaders: setCustomCacheControl }));
 app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
 app.put('/api/pizza', dataController.addPizza);

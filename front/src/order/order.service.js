@@ -10,7 +10,6 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$md
 
   var progressInterval = $interval(updateProgress, 1000);
 
-
   vnaSocket.on("connect", function() {
     $mdToast.showSimple("Connected");
     initExistingOrders();
