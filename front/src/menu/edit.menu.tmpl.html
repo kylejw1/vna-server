@@ -1,29 +1,21 @@
-<md-dialog aria-label="{{editMenuCtrl.order.name}}" flex="90">
-  <form ng-cloak>
+<md-dialog aria-label="{{editMenuCtrl.order.name}}">
 
-    <md-dialog-content layout-padding layout="column">
-      <form name="editMenuForm">
+      <md-input-container style="margin-right: 10px; margin-left: 10px;">
+        <input type="text" required name="name" ng-model="editMenuCtrl.name">
+      </md-input-container>
 
-        <md-input-container style="margin: 10px;">
-          <label>Name</label>
-          <input type="text" required name="name" ng-model="editMenuCtrl.name">
-        </md-input-container>
+  <on-screen-keyboard model="editMenuCtrl.name" uppercase-all-words></on-screen-keyboard>
 
-        <on-screen-keyboard flex="50" model="editMenuCtrl.name" uppercase-all-words></on-screen-keyboard>
-      </form>
-    </md-dialog-content>
-
-    <md-dialog-actions layout="row">
-      <md-button class="md-warn md-raised" ng-click="editMenuCtrl.deleteClicked()">
-        Delete
-      </md-button>
-      <span flex></span>
-      <md-button class="md-raised" ng-click="editMenuCtrl.cancelClicked()">
-       Close
-      </md-button>
-      <md-button class="md-raised" ng-click="editMenuCtrl.startClicked()" md-autofocus>
-        Start Timer
-      </md-button>
-    </md-dialog-actions>
-  </form>
+  <md-dialog-actions layout="row">
+    <md-button class="md-warn md-raised" ng-click="editMenuCtrl.deleteClicked()">
+      Delete
+    </md-button>
+    <span flex></span>
+    <md-button class="md-raised" ng-click="editMenuCtrl.cancelClicked()">
+      Close
+    </md-button>
+    <md-button class="md-raised" ng-click="editMenuCtrl.saveClicked()" md-autofocus>
+      Save
+    </md-button>
+  </md-dialog-actions>
 </md-dialog>

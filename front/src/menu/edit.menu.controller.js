@@ -9,6 +9,10 @@ app.controller('EditMenuController', [ '$mdDialog', 'name', '$scope',
     $mdDialog.hide();
   };
 
+  vm.deleteClicked = function() {
+    vm.hide();
+  };
+
   vm.saveClicked = function() {
     vm.hide();
   };
