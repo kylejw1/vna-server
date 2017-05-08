@@ -13,7 +13,7 @@ module.exports = {
   deleteItem: function(req, res) {
     try {
       dataService.deleteItem(req.params.name, req.params.type);
-      res.ok();
+      res.status(202).send();
     } catch(err) {
       res.status(500).send(err.message);
     }
