@@ -1,4 +1,4 @@
-app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'OrderService', '$state', 
+app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'OrderService', '$state',
     function(vnaSocket, $document, $mdSidenav, OrderService, $state) {
 
   var vm = this;
@@ -50,11 +50,11 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
     }
   ];
 
-  vm.selectedLocation = _.find(vm.locations, { name: $state.params.name || "Front" });
+  vm.selectedLocation = $state.params.name;
   vm.state = $state;
 
   vm.locationClicked = function(location) {
-    vm.selectedLocation = location; 
+    vm.selectedLocation = location.name; 
     $state.go('main.menu', {
       name: location.name, 
       typeFilter: location.typeFilter,
@@ -64,6 +64,11 @@ app.controller('MainController', ['vnaSocket', '$document', '$mdSidenav', 'Order
       reload: true
     });
     $mdSidenav('left').close();
+  };
+
+  vm.aboutClicked = function() {
+    //vm.selectedLocation = "About";
+    $state.go('main.about', {name: "About"}, {reload: true});
   };
 
   vm.sideNavToggle = function() {
