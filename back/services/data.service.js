@@ -57,7 +57,14 @@ module.exports.initialize();
 
 function addEntry(name, type) { 
   try {
-    fs.open(`types/${type}/${name}`, 'w', (err, fd) => {
+
+    var path = `types/${type}/${name}`;
+
+    if (fs.existsSync(path)) {
+      return;
+    }
+
+    fs.open(path, 'w', (err, fd) => {
       if (err) throw err;
 
       fs.close(fd, (err) => {
