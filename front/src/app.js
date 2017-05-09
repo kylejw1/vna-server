@@ -31,6 +31,17 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $htt
           controllerAs: 'statusCtrl'
         }
       }
+    })
+    
+    .state('main.about', {
+      url: '^/about?name=About',
+      views: {
+        'left@main': {
+          templateUrl: 'src/about/about.html',
+          controller: 'AboutController',
+          controllerAs: 'aboutCtrl'
+        }
+      }
     });
 
   $urlRouterProvider.otherwise('/menu');
@@ -98,3 +109,9 @@ app.factory('httpInterceptor', ['$injector', function($injector) {
     }
   };
 }]);
+
+app.run(function(DataService, OrderService) {
+  // This is needed to ensure the data and order services are created so they can initialize their socket listeners
+  // And retrieve an initial list of menu items and orders
+  console.log("Ensuring services are created...");
+});
