@@ -10,6 +10,13 @@
             "name": "Launch Program",
             "program": "${workspaceRoot}/back/index.js",
             "cwd": "${workspaceRoot}/back"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Load Tests",
+            "program": "${workspaceRoot}/back/test/test.js",
+            "cwd": "${workspaceRoot}/back"
         }
     ]
 }

@@ -1,0 +1,21 @@
+<md-dialog aria-label="{{editMenuCtrl.order.name}}">
+
+      <md-input-container style="margin-right: 10px; margin-left: 10px;">
+        <input type="text" required name="name" ng-model="editMenuCtrl.name">
+      </md-input-container>
+
+  <on-screen-keyboard model="editMenuCtrl.name" uppercase-all-words></on-screen-keyboard>
+
+  <md-dialog-actions layout="row">
+    <md-button class="md-warn md-raised" ng-click="editMenuCtrl.deleteClicked()">
+      Delete
+    </md-button>
+    <span flex></span>
+    <md-button class="md-raised" ng-click="editMenuCtrl.cancelClicked()">
+      Cancel
+    </md-button>
+    <md-button class="md-raised" ng-click="editMenuCtrl.saveClicked()" md-autofocus>
+      Save
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

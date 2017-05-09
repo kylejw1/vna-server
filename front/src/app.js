@@ -1,7 +1,7 @@
 
-var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io']);
+var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io', 'onScreenKeyboard']);
 
-app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $httpProvider) {
 
   $stateProvider
     
@@ -18,7 +18,7 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     })
 
     .state('main.menu', {
-      url: '^/menu/:station?typeFilter&columns',
+      url: '^/menu?name&typeFilter&columns&mode',
       views: {
         'left@main': {
           templateUrl: 'src/menu/menu.html',
@@ -30,18 +30,10 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
           controller: 'StatusController',
           controllerAs: 'statusCtrl'
         }
-      },
-      resolve: {
-        pizzas: function(DataService) { 
-          return DataService.getAllByName("pizzas");
-        },
-        pastas: function(DataService) {
-          return DataService.getAllByName("pastas");
-        }
       }
     });
 
-  $urlRouterProvider.otherwise('/menu/front');
+  $urlRouterProvider.otherwise('/menu');
 
   $mdThemingProvider
     .theme('default')
@@ -50,10 +42,13 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
     .warnPalette('red')
     .backgroundPalette('grey');
 
+  $httpProvider.interceptors.push('httpInterceptor');
+
 });
 
 var currentVersion = null;
-app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', function(socketFactory, $mdToast, $window, $interval) {
+app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', 
+    function(socketFactory, $mdToast, $window, $interval, menuController) {
   var vnaSocket = socketFactory();
 
   vnaSocket.on("version", function(data) {
@@ -77,4 +72,29 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', f
   });
 
   return vnaSocket;
+}]);
+
+app.factory('httpInterceptor', ['$injector', function($injector) {
+
+
+  return {
+        request: function(config) {
+      return config;
+    },
+
+    requestError: function(config) {
+      return config;
+    },
+
+    response: function(res) {
+      return res;
+    },
+    responseError: function(res) {
+      var mdToast = $injector.get("$mdToast");
+      var msg = res.status + " :: " + res.statusText;
+      mdToast.showSimple(msg);
+      console.error("HTTP error :: ", msg);
+      return res;
+    }
+  };
 }]);

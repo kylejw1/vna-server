@@ -1,33 +1,41 @@
 var fs = require('fs');
+var _ = require('lodash');
 
-var pizzas, pastas;
+var types = {};
 
 module.exports = {
 
   initialize: function() {
-    pizzas = getAllByName("pizzas");
-    pastas = getAllByName("pastas");
+    types.pizza = getAllByName("pizza");
+    types.pasta = getAllByName("pasta");
   },
 
   getAllPizzas: function() {
-    return pizzas;
+    return types.pizza;
   },
 
   getAllPastas: function() {
-    return pastas;
+    return types.pasta;
+  },
+
+  deleteItem: function(name, type) {
+    _.remove(types[type], function(n) {
+      return name === n; 
+    });
+    removeEntry(name, type);
   },
 
   addPizza: function(pizza) {
-    if(pizzas.indexOf(pizza) < 0) {
-      pizzas.push(pizza);
-      addEntry(pizza, "pizzas");
+    if(types.pizza.indexOf(pizza) < 0) {
+      types.pizza.push(pizza);
+      addEntry(pizza, "pizza");
     }
   },
 
   addPasta: function(pasta) {
-    if(pastas.indexOf(pasta) < 0) {
-      pastas.push(pasta);
-      addEntry(pasta, "pastas");
+    if(types.pasta.indexOf(pasta) < 0) {
+      types.pasta.push(pasta);
+      addEntry(pasta, "pasta");
     }
   },
 
@@ -61,6 +69,13 @@ function addEntry(name, type) {
     });
   } catch(err) {
     console.log(`Failed to create item ${name} in ${type}`);
+  }
+}
+
+function removeEntry(name, type) {
+  var path = `config/${type}/${name}`;
+  if (fs.existsSync(path)) {
+    fs.unlinkSync(path);
   }
 }
 

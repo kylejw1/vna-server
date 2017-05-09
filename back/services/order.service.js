@@ -4,23 +4,6 @@ var DataService = require('./data.service.js');
 var orders = {};
 var index = 0;
 
-// setInterval(cleanup, 60000);
-// function cleanup() {
-
-//   if (Object.getOwnPropertyNames(orders).length === 0) {
-//     return;
-//   }
-
-//   console.log(`Running cleanup task on ${orders.length} items`);
-
-//   var staleDate = new Date().getTime() - (30*60*1000);
-
-//   // Pop anything that is ready for more than 30 min
-//   orders = _.reject(orders, order => order.cookEnd && order.cookEnd < staleDate);
-
-//   console.log(`Cleanup complete. ${orders.length} items remain`);
-// }
-
 module.exports = {
 
   getOrders: function() {
