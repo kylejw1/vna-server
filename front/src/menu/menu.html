@@ -16,7 +16,7 @@
 
 <md-grid-list md-cols="6" md-gutter="1em" md-row-height="4:3" ng-class="{fullscreen: menuCtrl.isFullScreen}">
   
-  <md-grid-tile ng-repeat="name in menuCtrl.types[menuCtrl.selectedType]">
+  <md-grid-tile ng-repeat="name in menuCtrl.types[menuCtrl.selectedType] | orderBy: name">
     <md-whiteframe class="md-whiteframe-6dp noselect" flex layout layout-fill layout-align="center center" md-ink-ripple md-colors="{background: 'blue-100'}" ng-click="menuCtrl.itemClicked(name)">
         <center>{{name}}</center>
     </md-whiteframe>

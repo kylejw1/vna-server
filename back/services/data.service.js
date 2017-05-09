@@ -1,4 +1,5 @@
 var fs = require('fs');
+var _ = require('lodash');
 
 var types = {};
 
@@ -18,7 +19,9 @@ module.exports = {
   },
 
   deleteItem: function(name, type) {
-    delete types[type][name];
+    _.remove(types[type], function(n) {
+      return name === n; 
+    });
     removeEntry(name, type);
   },
 

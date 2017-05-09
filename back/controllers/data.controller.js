@@ -24,8 +24,8 @@ module.exports = {
     } catch(error) {
       var errString = "deleteItem :: " + error;
       console.error(errString);
-      ioServer.sockets.emit("error", errString);
-      return res.status(500).send(error)
+      io.sockets.emit("error", errString);
+      return res.status(500).send(error);
     }
   },
 
