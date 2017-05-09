@@ -6,8 +6,8 @@ var types = {};
 module.exports = {
 
   initialize: function() {
-    types.pizza = getAllByName("pizza");
-    types.pasta = getAllByName("pasta");
+    types.pizza = getAllByType("pizza");
+    types.pasta = getAllByType("pasta");
   },
 
   getAllPizzas: function() {
@@ -57,7 +57,7 @@ module.exports.initialize();
 
 function addEntry(name, type) { 
   try {
-    fs.open(`config/${type}/${name}`, 'w', (err, fd) => {
+    fs.open(`types/${type}/${name}`, 'w', (err, fd) => {
       if (err) throw err;
 
       fs.close(fd, (err) => {
@@ -73,12 +73,85 @@ function addEntry(name, type) {
 }
 
 function removeEntry(name, type) {
-  var path = `config/${type}/${name}`;
+  var path = `types/${type}/${name}`;
   if (fs.existsSync(path)) {
     fs.unlinkSync(path);
   }
 }
 
-function getAllByName(name) {
-  return fs.readdirSync("config/" + name);
+function getAllByType(type) {
+
+  var root = "types/";
+
+  if (!fs.existsSync(root)) {
+    fs.mkdirSync(root);
+  }
+
+  if (!fs.existsSync(root + type)) {
+    fs.mkdirSync(root + type);
+  }
+
+  var types = fs.readdirSync(root + type);
+
+  if (types.length === 0) {
+    types = createDefaults(type);
+  }
+
+  return types;
+}
+
+function defaultPizzas() {
+  return [
+    "4 Cheese",
+    "All Meat",
+    "BBQ Chicken",
+    "Beef and Mushroom",
+    "Deluxe",
+    "Double Pepperoni",
+    "Hawaiian",
+    "Pepperoni and Bacon",
+    "Pepperoni and Ham",
+    "Pepperoni and Mushroom",
+    "Pepperoni Mushroom Green Peppers",
+    "Spinach and Feta",
+    "Spolumbos",
+    "Vegetarian",
+    "VERONA Special"
+  ]
+}
+
+function defaultPastas() {
+  return [
+    "Baked Lasagna",
+    "Baked Lasagna with Meatballs",
+    "Baked Ravioli",
+    "Baked Ravioli with Meatballs",
+    "Baked Spaghetti",
+    "Baked Spaghetti with Meatballs"
+  ]
+}
+
+function createDefaults(type) {
+
+  var defaults;
+
+  console.log("Initializing item type " + type);
+
+  switch(type) {
+    case "pizza":
+    defaults = defaultPizzas();
+    break;
+    case "pasta":
+    defaults = defaultPastas();
+    break;
+    default: 
+    defaults = [];
+    break;
+  }
+
+  _.forEach(defaults, function(name) {
+    addEntry(name, type);
+  }); 
+
+  return defaults;
 }

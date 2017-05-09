@@ -22,6 +22,10 @@ app.put('/api/pasta', dataController.addPasta);
 app.get('/api/pizza', dataController.getAllPizzas);
 app.get('/api/pasta', dataController.getAllPastas);
 app.delete('/api/data/:type/:name', dataController.deleteItem);
+
+app.get('/api/config/version', function(req, res) { res.send(version) });
+app.post('/api/config/restart', function() { process.exit() });
+
 app.get('/api/orders', orderController.getOrders);
 app.get('/api/time', orderController.getTime);
 

@@ -65,8 +65,22 @@ app.service('DataService', ["$http", "vnaSocket", function($http, vnaSocket) {
 
     delete: function(name, type) {
       return $http.delete("/api/data/" + type + "/" + name);
-    }
+    },
 
+    getVersion: function() {
+      return $http.get('/api/config/version')
+        .then(function(data) {
+          return data.data;
+        })
+        .catch(function(err) {
+          console.error("Failed to retrieve version", err);
+          return "?";
+        });
+    },
+
+    restartServer: function() {
+      return $http.post('/api/config/restart');
+    }
   }
 
 }]);
