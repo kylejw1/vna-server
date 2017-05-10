@@ -62,6 +62,11 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval',
     function(socketFactory, $mdToast, $window, $interval, menuController) {
   var vnaSocket = socketFactory();
 
+  function showError(data) {
+    $mdToast.showSimple(data);
+    console.error("Upstream error :: " + data);
+  }
+
   vnaSocket.on("version", function(data) {
 
     var version = data.version;
@@ -77,10 +82,12 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval',
     console.log("Uptime: " + data.uptime);//.substr(11, 8));
   });
 
-  vnaSocket.on("error", function(data) {
-    $mdToast.showSimple(data);
-    console.error("Upstream error :: " + data);
-  });
+  vnaSocket.on("error", showError);
+  vnaSocket.on("vnaError", showError);
+
+  vnaSocket.emitWithToken = function(event, data) {
+    vnaSocket.emit(event, { data: data, token: null });
+  };
 
   return vnaSocket;
 }]);

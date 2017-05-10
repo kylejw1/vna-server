@@ -121,15 +121,15 @@ app.service('OrderService', ["$http", "vnaSocket", "$timeout", "$interval", "$md
         type: type
       };
 
-      vnaSocket.emit("createOrder", order);
+      vnaSocket.emitWithToken("createOrder", order);
     },
 
     deleteOrder: function(id) {
-      vnaSocket.emit("deleteOrder", id);
+      vnaSocket.emitWithToken("deleteOrder", id);
     },
 
     startOrderTimer: function(id, seconds) {
-      vnaSocket.emit("startOrderTimer", {
+      vnaSocket.emitWithToken("startOrderTimer", {
         id: id,
         seconds: seconds
       });
