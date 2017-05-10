@@ -114,12 +114,15 @@ app.run(function(DataService, OrderService, $timeout, $window) {
   // This is needed to ensure the data and order services are created so they can initialize their socket listeners
   // And retrieve an initial list of menu items and orders
   console.log("Ensuring services are created...");
-// TODO: Find tiem to midnight
-// Then add 7 days
-  var time = 7*30*1000;
+
+  var time = new Date();
+  time.setHours(7*24, 0, 0, 0);
+  var msec = time.getTime() - (new Date()).getTime();
+  console.log("Will auto refresh page at ", time);
+  console.log("(" + msec + " msec)");
 
   $timeout(function() {
     console.log("Reloading window after long uptime (" + time + "msec)");
     $window.location.reload();
-  }, time);
+  }, msec);
 });
