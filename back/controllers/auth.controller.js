@@ -52,6 +52,18 @@ module.exports = {
 
   getUser: function(req, res) {
     return res.send(req.user);
+  },
+
+  socketIoMiddleware: function(io, socket, data, next) {
+    jwt.verify(data.token, key, function(err, decoded) {
+      if (err) {
+        console.warn("Socket message from unauthorized user");
+        return socket.emit('vnaError', "Not authorized");
+      } else {
+        data.user = decoded.name;
+        return next(data.data, io);
+      }
+    });
   }
 
 };

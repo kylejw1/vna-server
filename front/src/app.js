@@ -1,5 +1,5 @@
 
-var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io', 'onScreenKeyboard']);
+var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io', 'onScreenKeyboard', 'ngCookies']);
 
 app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $httpProvider) {
 
@@ -58,14 +58,13 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $htt
 });
 
 var currentVersion = null;
-app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', 
-    function(socketFactory, $mdToast, $window, $interval, menuController) {
+app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', '$cookies', 
+    function(socketFactory, $mdToast, $window, $interval, $cookies) {
   var vnaSocket = socketFactory();
 
-  function showError(data) {
-    $mdToast.showSimple(data);
-    console.error("Upstream error :: " + data);
-  }
+  vnaSocket.authEmit = function(event, data) {
+    return vnaSocket.emit(event, { data: data, token: $cookies.get("token") });
+  };
 
   vnaSocket.on("version", function(data) {
 
@@ -82,21 +81,20 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval',
     console.log("Uptime: " + data.uptime);//.substr(11, 8));
   });
 
+  function showError(data) {
+    $mdToast.showSimple(data);
+    console.error("Upstream error :: " + data);
+  }
   vnaSocket.on("error", showError);
   vnaSocket.on("vnaError", showError);
-
-  vnaSocket.emitWithToken = function(event, data) {
-    vnaSocket.emit(event, { data: data, token: null });
-  };
 
   return vnaSocket;
 }]);
 
 app.factory('httpInterceptor', ['$injector', function($injector) {
 
-
   return {
-        request: function(config) {
+    request: function(config) {
       return config;
     },
 
@@ -108,20 +106,21 @@ app.factory('httpInterceptor', ['$injector', function($injector) {
       return res;
     },
     responseError: function(res) {
-      var mdToast = $injector.get("$mdToast");
       var msg = res.status + " :: " + res.statusText;
-      mdToast.showSimple(msg);
       console.error("HTTP error :: ", msg);
+      if (res.status > 0) {
+        var mdToast = $injector.get("$mdToast");
+        mdToast.showSimple(msg);
+      }
       return res;
     }
   };
 }]);
 
-app.run(function(DataService, OrderService, $timeout, $window) {
-  // This is needed to ensure the data and order services are created so they can initialize their socket listeners
+app.run(function(AuthService, DataService, OrderService, $timeout, $window) {
+  // DataService, OrderService are injected to ensure they are created so they can initialize their socket listeners
   // And retrieve an initial list of menu items and orders
   console.log("Ensuring services are created...");
-
   var time = new Date();
   time.setHours(7*24, 0, 0, 0);
   var msec = time.getTime() - (new Date()).getTime();

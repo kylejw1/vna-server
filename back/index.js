@@ -24,27 +24,32 @@ app.use(cookieParser());
 app.use(bodyParser.json())
 
 app.post('/api/auth/login', authController.login);
+app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
+app.get('/api/pizza', dataController.getAllPizzas);
+app.get('/api/pasta', dataController.getAllPastas);
+app.get('/api/config/version', function(req, res) { res.send(version) });
+app.get('/api/orders', orderController.getOrders);
+app.get('/api/time', orderController.getTime);
 
 app.use(authController.middleware);
 
 app.get('/api/auth/user', authController.getUser);
 app.post('/api/auth/logout', authController.logout);
 
-app.get('/socket.io/socket.io.js', serveStatic('node_modules/socket.io-client/dist/socket.io.min.js'));
-
 app.put('/api/pizza', dataController.addPizza);
 app.put('/api/pasta', dataController.addPasta);
-app.get('/api/pizza', dataController.getAllPizzas);
-app.get('/api/pasta', dataController.getAllPastas);
 app.delete('/api/data/:type/:name', dataController.deleteItem);
 
-app.get('/api/config/version', function(req, res) { res.send(version) });
 app.post('/api/config/restart', function() { process.exit() });
 
-app.get('/api/orders', orderController.getOrders);
-app.get('/api/time', orderController.getTime);
 
 io.on('connection', socket => {
+
+  socket.authOn = function(event, callback) {
+    socket.on(event, data => {
+      authController.socketIoMiddleware(io, socket, data, callback);
+    });
+  };
 
   // Let the clients know the current version in case they need to reload
   socket.emit('version', {
@@ -52,24 +57,11 @@ io.on('connection', socket => {
     uptime: process.uptime()
   });
 
-  socket.on('message', data => {
-    console.log('received message: ', JSON.stringify(data));
+  socket.authOn('createOrder', orderController.createOrder);
 
-    socket.emit('message', {"hello": "clients"});
- 
-  });
+  socket.authOn('deleteOrder', orderController.deleteOrder);
 
-  socket.on('createOrder', data => {
-    validateTokenAndExecute(io, socket, data, orderController.createOrder);
-  });
-
-  socket.on('deleteOrder', id => {
-    validateTokenAndExecute(io, socket, data, orderController.deleteOrder);
-  });
-
-  socket.on('startOrderTimer', data => {
-    validateTokenAndExecute(io, socket, data, orderController.startOrderTimer);
-  });
+  socket.authOn('startOrderTimer', orderController.startOrderTimer);
 
 });
 
@@ -82,15 +74,6 @@ process.on('SIGINT', function() {
   server.close();
   process.exit();
 });
-
-function validateTokenAndExecute(io, socket, message, callback) {
-  if (true) {
-    callback(message.data, io);
-  } else {
-    console.warn("Socket message from unauthorized user");
-    socket.emit('vnaError', "Not authorized");
-  }
-}
 
 function setCustomCacheControl (res, path) {
   res.header("Cache-Control", "no-cache, no-store, must-revalidate");
