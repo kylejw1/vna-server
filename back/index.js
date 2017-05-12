@@ -30,11 +30,12 @@ app.get('/api/pasta', dataController.getAllPastas);
 app.get('/api/config/version', function(req, res) { res.send(version) });
 app.get('/api/orders', orderController.getOrders);
 app.get('/api/time', orderController.getTime);
+app.get('/api/auth/logout', authController.logout);
+app.post('/api/auth/logout', authController.logout);
 
 app.use(authController.middleware);
 
 app.get('/api/auth/user', authController.getUser);
-app.post('/api/auth/logout', authController.logout);
 
 app.put('/api/pizza', dataController.addPizza);
 app.put('/api/pasta', dataController.addPasta);

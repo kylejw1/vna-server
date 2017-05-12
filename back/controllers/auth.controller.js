@@ -11,10 +11,12 @@ module.exports = {
       return res.status(401).send();
     }
 
-    var user = req.body.user;
-    var pass = req.body.pass;
+    var user = req.body.user || "";
+    var pass = req.body.pass || "";
 
-    if (pass !== password) {
+    // Force lowercase because angular onscreen keyboard is auto pressing shift on load
+    // and this is a bad ux for a touchscreen
+    if (pass.toLowerCase() !== password.toLowerCase()) {
       return res.status(401).send();
     }
 
@@ -58,7 +60,7 @@ module.exports = {
     jwt.verify(data.token, key, function(err, decoded) {
       if (err) {
         console.warn("Socket message from unauthorized user");
-        return socket.emit('vnaError', "Not authorized");
+        return socket.emit('authError', "Not authorized");
       } else {
         data.user = decoded.name;
         return next(data.data, io);

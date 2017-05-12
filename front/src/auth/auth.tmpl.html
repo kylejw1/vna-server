@@ -1,0 +1,27 @@
+<md-dialog aria-label="Sign In">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Sign In</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="authCtrl.cancelClicked()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-input-container style="margin-right: 10px; margin-left: 10px;">
+      <input type="text" required name="name" ng-model="authCtrl.password" md-autofocus>
+    </md-input-container>
+
+    <on-screen-keyboard model="authCtrl.password" ></on-screen-keyboard>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button class="md-raised" ng-click="authCtrl.cancelClicked()">
+       Close
+      </md-button>
+      <md-button class="md-raised md-primary" ng-click="authCtrl.loginClicked()">
+        Login
+      </md-button>
+    </md-dialog-actions>
+</md-dialog>
