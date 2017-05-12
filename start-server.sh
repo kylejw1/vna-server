@@ -1,9 +1,9 @@
 #!/bin/bash
 
-git pull
+git pull || true
 cd "back"
-npm install
+npm install || true
 cd "../front"
-bower install
+bower install || true
 cd "../back" 
 node index.js
