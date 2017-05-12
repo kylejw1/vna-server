@@ -1,8 +1,8 @@
 {
   "apps" : [{
     "name"        : "vna-server",
-    "script"      : "./index.js",
-    "cwd"         : "./back",
+    "script"      : "./start-server.sh",
+    "cwd"         : ".",
     "watch"       : false
   }]
 }
