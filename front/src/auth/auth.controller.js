@@ -14,9 +14,13 @@ app.controller('AuthController', [ '$mdDialog', '$window', 'AuthService',
   };
 
   vm.loginClicked = function() {
-    AuthService.login(vm.password.trim()).then(function(data) {
-      $window.location.reload();
-    });
+    AuthService.login(vm.password.trim())
+      .then(function(data) {
+        $window.location.reload();
+      })
+      .catch(function(err) {
+        vm.password = "";
+      });
   };
 
 }]);
