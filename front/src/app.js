@@ -1,5 +1,5 @@
 
-var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io', 'onScreenKeyboard']);
+var app = angular.module('vna', ['ngMaterial', 'ui.router', 'btford.socket-io', 'onScreenKeyboard', 'ngCookies']);
 
 app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $httpProvider) {
 
@@ -58,9 +58,13 @@ app.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider, $htt
 });
 
 var currentVersion = null;
-app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', 
-    function(socketFactory, $mdToast, $window, $interval, menuController) {
+app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval', '$cookies', 
+    function(socketFactory, $mdToast, $window, $interval, $cookies) {
   var vnaSocket = socketFactory();
+
+  vnaSocket.authEmit = function(event, data) {
+    return vnaSocket.emit(event, { data: data, token: $cookies.get("token") });
+  };
 
   vnaSocket.on("version", function(data) {
 
@@ -77,19 +81,25 @@ app.factory('vnaSocket', ['socketFactory', '$mdToast', '$window', '$interval',
     console.log("Uptime: " + data.uptime);//.substr(11, 8));
   });
 
-  vnaSocket.on("error", function(data) {
+  function showError(data) {
+    if ("error")
     $mdToast.showSimple(data);
     console.error("Upstream error :: " + data);
+  }
+  vnaSocket.on("authError", function(error) {
+    console.log(error);
+    authPrompt($mdToast, $window);
   });
+  vnaSocket.on("error", showError);
+  vnaSocket.on("vnaError", showError);
 
   return vnaSocket;
 }]);
 
-app.factory('httpInterceptor', ['$injector', function($injector) {
-
+app.factory('httpInterceptor', ['$injector', '$window', '$q', function($injector, $window, $q) {
 
   return {
-        request: function(config) {
+    request: function(config) {
       return config;
     },
 
@@ -101,17 +111,68 @@ app.factory('httpInterceptor', ['$injector', function($injector) {
       return res;
     },
     responseError: function(res) {
-      var mdToast = $injector.get("$mdToast");
+
       var msg = res.status + " :: " + res.statusText;
-      mdToast.showSimple(msg);
-      console.error("HTTP error :: ", msg);
-      return res;
+      console.log("HTTP error :: ", msg);
+      var mdToast = $injector.get("$mdToast");
+
+      if (res.status === 401) {
+        authPrompt(mdToast, $window);
+      } else if (res.status > 0) {
+        mdToast.showSimple(msg);
+      }
+
+      return $q.reject(res);
     }
   };
 }]);
 
-app.run(function(DataService, OrderService) {
-  // This is needed to ensure the data and order services are created so they can initialize their socket listeners
+function authPrompt($mdToast, $window) {
+  var toast = $mdToast.simple()
+    .textContent('Unauthorized')
+    .action("LOGIN")
+    .highlightAction(true);
+
+  $mdToast.show(toast).then(function(response) {
+    if (response === 'ok') {
+      $window.location.reload();
+    }
+  }).catch(function(err) {
+    console.log("User decided not to log in");
+  });
+}
+
+app.run(function(AuthService, DataService, OrderService, $timeout, $window, $mdDialog) {
+  // DataService, OrderService are injected to ensure they are created so they can initialize their socket listeners
   // And retrieve an initial list of menu items and orders
   console.log("Ensuring services are created...");
+  var time = new Date();
+  time.setHours(7*24, 0, 0, 0);
+  var msec = time.getTime() - (new Date()).getTime();
+  console.log("Will auto refresh page at ", time);
+  console.log("(" + msec + " msec)");
+
+  AuthService.getUser()
+    .then(function(data) { 
+      if (!data || data.status >= 400) {
+        throw new Error("Not Authorized");
+      }  
+      console.log("Welcome, " + data.data) 
+    })
+    .catch(function(err) {
+        $mdDialog.show({
+          locals: { },
+          controller: 'AuthController',
+          controllerAs: 'authCtrl',
+          templateUrl: 'src/auth/auth.tmpl.html',
+          parent: angular.element(document.body),
+          targetEvent: event,
+          clickOutsideToClose:false,
+        });
+    });
+
+  $timeout(function() {
+    console.log("Reloading window after long uptime (" + time + "msec)");
+    $window.location.reload();
+  }, msec);
 });

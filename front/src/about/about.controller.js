@@ -1,10 +1,16 @@
-app.controller('AboutController', [ '$mdDialog', 'DataService',
-    function($mdDialog, DataService) {
+app.controller('AboutController', [ '$mdDialog', 'DataService', 'AuthService',
+    function($mdDialog, DataService, AuthService) {
 
   var vm = this;
 
   DataService.getVersion().then(function(version) {
     vm.version = version;
+  });
+
+  AuthService.getUser().then(function(user) {
+    vm.user = user;
+  }).catch(function(err) {
+    vm.user = "(not logged in)"
   });
 
   vm.restartClicked = function(ev) {

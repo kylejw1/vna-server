@@ -17,7 +17,7 @@ module.exports = {
     } catch(error) {
       var errString = "createOrder :: " + error;
       console.error(errString);
-      ioServer.sockets.emit("error", errString);
+      ioServer.sockets.emit("vnaError", errString);
     }
   },
 
@@ -28,7 +28,7 @@ module.exports = {
     } catch(error) {
       var errString = "deleteOrder :: " + error;
       console.error(errString);
-      ioServer.sockets.emit("error", errString);
+      ioServer.sockets.emit("vnaError", errString);
     }
   },
 
@@ -39,7 +39,7 @@ module.exports = {
     } catch(error) {
       var errString = "startOrderTimer :: " + error;
       console.error(errString);
-      ioServer.sockets.emit("error", errString);
+      ioServer.sockets.emit("vnaError", errString);
     }
   }
 

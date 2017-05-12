@@ -24,7 +24,7 @@ module.exports = {
     } catch(error) {
       var errString = "deleteItem :: " + error;
       console.error(errString);
-      io.sockets.emit("error", errString);
+      io.sockets.emit("vnaError", errString);
       return res.status(500).send(error);
     }
   },
@@ -46,7 +46,7 @@ module.exports = {
     } catch(error) {
       var errString = "addPizza :: " + error;
       console.error(errString);
-      ioServer.sockets.emit("error", errString);
+      ioServer.sockets.emit("vnaError", errString);
       return res.status(500).send(error)
     }
   },
@@ -68,7 +68,7 @@ module.exports = {
     } catch(error) {
       var errString = "addPasta :: " + error;
       console.error(errString);
-      ioServer.sockets.emit("error", errString);
+      ioServer.sockets.emit("vnaError", errString);
       return res.status(500).send(error)
     }
   }
