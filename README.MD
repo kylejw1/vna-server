@@ -69,6 +69,7 @@ sudo pm2 save
 asdfasdfa
 ...
 
+log file is not being set right
 remove ssh file
 or optionally turn off pwd login and install ssh key
 
