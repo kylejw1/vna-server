@@ -60,6 +60,7 @@ sudo pm2 startup
 
 ```
 git clone https://github.com/kylejw1/vna-server.git
+git checkout release
 cd vna-server
 sudo pm2 -l /var/log/vna-server.log start pm2.json
 sudo pm2 save
