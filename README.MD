@@ -29,6 +29,7 @@ sudo nano /etc/fstab
 tmpfs    /tmp    tmpfs    defaults,noatime,nosuid,size=200m    0 0
 tmpfs    /var/tmp    tmpfs    defaults,noatime,nosuid,size=30m    0 0
 tmpfs    /var/log    tmpfs    defaults,noatime,nosuid,mode=0755,size=200m    0 0
+tmpfs    /root/.pm2/logs    tmpfs    defaults,noatime,nosuid,mode=0755,size=100m    0 0
 #tmpfs    /var/run    tmpfs    defaults,noatime,nosuid,mode=0755,size=2m    0 0
 tmpfs    /var/spool/mqueue    tmpfs    defaults,noatime,nosuid,mode=0700,gid=12,size=30m    0 0
 
@@ -77,4 +78,4 @@ asdfasdfa
 log file is not being set right
 remove ssh file
 or optionally turn off pwd login and install ssh key
-
+set the environment variables for token and pw

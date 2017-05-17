@@ -1,6 +1,7 @@
 var io = require('socket.io-client');
 var _ = require('lodash');
-var socket = io.connect('http://localhost:1337');
+var socket = io.connect('http://vna.duckdns.org');
+var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidmVyb25hIiwiaWF0IjoxNDk0NTU5OTY1fQ.KwxGGR8T_joEshHQSl6qiyVn91GIWEkvf-NalG2DSog";
 
 var orders = {};
 var stats = {
@@ -51,12 +52,16 @@ function action(socket) {
 }
 
 function createOrder(socket) {
-  socket.emit('createOrder', {name: "test pizza", type: "pizza"});
+  authEmit('createOrder', {name: "test pizza", type: "pizza"}, socket);
 }
 
 function deleteOrder(socket) { 
   var id = _(orders).keys().sample();
   if (id) {
-    socket.emit('deleteOrder', id);
+    authEmit('deleteOrder', id, socket);
   }
+}
+
+function authEmit(event, data, socket) {
+  socket.emit(event, { data: data, token: token });
 }
