@@ -51,9 +51,14 @@ sudo npm config --global set cache /tmp/.npm
 sudo npm install -g pm2 bower
 ```
 
-8. Start pm2 on boot
+8. Configure pm2
 ```
+# Start on boot - execute the command this outputs if necessary
 sudo pm2 startup
+sudo pm2 install pm2-logrotate
+sudo pm2 set pm2-logrotate:max_size 20MB
+sudo pm2 set pm2-logrotate:retain 0
+sudo pm2 save
 ```
 
 8. Clone app and start pm2

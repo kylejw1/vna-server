@@ -3,6 +3,8 @@
     "name"        : "vna-server",
     "script"      : "./start-server.sh",
     "cwd"         : ".",
-    "watch"       : false
+    "watch"       : false,
+    "error_file"      : "/var/log/vna-server.err.log",
+    "out_file"        : "/var/log/vna-server.out.log"
   }]
 }
