@@ -11,10 +11,9 @@
 ssh pi@[ip address]
 ```
 
-5. Expand filesystem and set Hostname
+5. Set Hostname
 ```
 sudo raspi-config
-Advanced Options -> Expand Filesystem
 Set Hostname
 vna-server
 Finish
@@ -80,10 +79,45 @@ mkdir secret
 echo "PASSWORD" > secret/auth.pass
 ```
 
-asdfasdfa
-...
+10. Copy ssh key to pi and disable password login
 
-log file is not being set right
-remove ssh file
-or optionally turn off pwd login and install ssh key
-set the environment variables for token and pw
+(Substitute in the pi address/hostname)
+
+```
+ssh-copy-id pi@000.000.000.000
+
+sudo nano /etc/ssh/sshd_config
+#Change:
+#PasswordAuthentication yes
+#To:
+PasswordAuthentication no
+
+# Save and exit
+
+sudo /etc/init.d/ssh restart
+```
+
+11. Backup
+
+Use win32diskimager to create an image backup of the SD card
+
+12. Expand Filesystem
+
+```
+sudo raspi-config
+Advanced Options -> Expand Filesystem
+Finished (yes to reboot)
+```
+
+
+## Client
+
+1. Transfer ssh keys from pi clients to the server so they can be used to log in
+
+(Substitute in the server pi address/hostname)
+
+```
+ssh-keygen -t rsa 
+ssh-copy-id pi@000.000.000.000
+```
+
