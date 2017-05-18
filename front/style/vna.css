@@ -39,3 +39,8 @@ md-whiteframe {
 md-grid-list {
   margin: 15px;
 }
+
+.button {
+  width: 50px !important;
+  height: 50px !important;
+}
