@@ -72,6 +72,14 @@ sudo pm2 start pm2.json
 sudo pm2 save
 ```
 
+9. Set login password
+
+```
+cd vna-server/back
+mkdir secret
+echo "PASSWORD" > secret/auth.pass
+```
+
 asdfasdfa
 ...
 
