@@ -37,11 +37,11 @@ app.controller('EditStatusController', [ '$mdDialog', 'order', 'OrderService',
   };
 
   vm.incrementSeconds = function() {
-    vm.seconds = vm.setSeconds(vm.seconds + 1);
+    vm.seconds = vm.setSeconds(vm.seconds + 5);
   };
 
   vm.decrementSeconds = function() {
-    vm.seconds = vm.setSeconds(vm.seconds - 1);
+    vm.seconds = vm.setSeconds(vm.seconds - 5);
   };
 
   vm.setMinutes = function(value) {

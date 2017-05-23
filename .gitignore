@@ -1,3 +1,4 @@
 back/node_modules
 back/types
 front/bower_components
+*/secret/*
