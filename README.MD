@@ -163,8 +163,9 @@ sudo pm2 save
 
 ```
 git clone https://github.com/kylejw1/vna-server.git
-git checkout release
 cd vna-server
+git checkout release
+git pull
 sudo pm2 start pm2.json
 sudo pm2 save
 ```
