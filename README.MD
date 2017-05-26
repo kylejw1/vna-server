@@ -288,10 +288,16 @@ sudo mkdir -p /etc/X11/xorg.conf.d/
 sudo chmod a+rwx -R /etc/X11/xorg.conf.d/
 ```
 
-4. Install firefox
+4. Remove firefox if present
 
 ```
-sudo apt-get install iceweasel --no-install-recommends
+sudo apt-get remove firefox firefox-esr
+```
+
+4. Set default browser to chrome
+
+```
+sudo update-alternatives --config x-www-browser
 ```
 
 5. Apply config.txt settings
@@ -317,7 +323,7 @@ sudo nano ~/.config/lxsession/LXDE-pi/autostart
 @xset s 0 0
 @xset s noblank
 @xset s noexpose
-@xset dpms 0 0 1800
+@xset dpms 0 0 3600
 
 ```
 
@@ -360,6 +366,11 @@ Categories=System;Settings;
 
 ```
 
+10. Open files with one click (FROM THE GUI)
+
+* In Accessories select File Manager
+* File->Preferences. 
+* Select "Open Files with One Click"
 
 10. Calibrate screen ???
 
