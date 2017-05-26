@@ -66,7 +66,7 @@ io.on('connection', socket => {
 
 });
 
-server.listen(1337, () => {
+server.listen(80, () => {
   console.log("App listening");
 });
 
