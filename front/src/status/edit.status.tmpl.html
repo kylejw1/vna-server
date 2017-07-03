@@ -2,7 +2,7 @@
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{editStatusCtrl.order.name}}</h2>
+        <h2 ng-bind="editStatusCtrl.order.name"></h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="editStatusCtrl.cancelClicked()">
           <md-icon aria-label="Close dialog">close</md-icon>
@@ -18,7 +18,7 @@
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.incrementMinutes()">
             <md-icon aria-label="Close dialog">expand_less</md-icon>
           </md-button>
-          <h1 layout-align="center">{{editStatusCtrl.minutes.pad(2)}}</h1>
+          <h1 layout-align="center" ng-bind="editStatusCtrl.minutes.pad(2)"></h1>
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.decrementMinutes()">
             <md-icon aria-label="Close dialog">expand_more</md-icon>
           </md-button>
@@ -32,7 +32,7 @@
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.incrementSeconds()">
             <md-icon aria-label="Close dialog">expand_less</md-icon>
           </md-button>
-          <h1 align="center">{{editStatusCtrl.seconds.pad(2)}}</h1>
+          <h1 align="center" ng-bind="editStatusCtrl.seconds.pad(2)"></h1>
           <md-button class="md-raised md-primary" ng-click="editStatusCtrl.decrementSeconds()">
             <md-icon aria-label="Close dialog">expand_more</md-icon>
           </md-button>
