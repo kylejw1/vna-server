@@ -44,3 +44,8 @@ md-grid-list {
   width: 50px !important;
   height: 50px !important;
 }
+
+* {
+    -webkit-transition: none !important;
+    transition: none !important;
+}
